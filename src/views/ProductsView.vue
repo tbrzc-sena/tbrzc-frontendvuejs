@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script  setup>
 import ProductsList from '../components/ProductsList.vue'
 import HeaderAlternative from './base/HeaderAlternative.vue'
 import FooterBase from './base/FooterBase.vue';

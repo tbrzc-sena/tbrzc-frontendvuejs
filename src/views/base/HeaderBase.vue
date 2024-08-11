@@ -13,7 +13,7 @@ import { RouterLink } from 'vue-router'
           >
             <div class="flex">
               <img
-                src="/assets/imgs/AUTOCARPETS_LOGO_BLANCO.png"
+                src="/assets/imgs/AUTOCARPETS_LOGO_BLANCO.webp"
                 alt=""
                 class="my-0"
               />

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts">
 import HeaderAlternative from "./base/HeaderAlternative.vue";
 </script>
 
@@ -14,7 +14,7 @@ import HeaderAlternative from "./base/HeaderAlternative.vue";
           class="mb-6 justify-between rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
         >
           <img
-            src="assets/imgs/tapetes-carros-mercedes-a200.jpeg"
+            src="/public/assets/imgs/tapetes-carros-mercedes-a200.webp"
             alt="product-image"
             class="w-full rounded-lg sm:w-40"
           />

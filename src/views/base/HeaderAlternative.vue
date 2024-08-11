@@ -14,7 +14,7 @@ import { RouterLink } from 'vue-router'
           >
           <div class="flex">
                 <img
-                  src="/assets/imgs/autocarpet_logo.png"
+                  src="/public/assets/imgs/autocarpet_logo.webp"
                   alt=""
                   class="my-0"
                 />

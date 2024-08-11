@@ -1,4 +1,4 @@
-<script lang="ts">
+<script >
 import HeaderAlternative from "./base/HeaderAlternative.vue";
 import FooterBase from "./base/FooterBase.vue";
 </script>

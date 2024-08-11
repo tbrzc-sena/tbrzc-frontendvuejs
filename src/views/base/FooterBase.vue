@@ -6,7 +6,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-3">
         <div>
           <img
-            src="/assets/imgs/autocarpet_logo.png"
+            src="/assets/imgs/autocarpet_logo.webp"
             class="mr-5 h-6 sm:h-9"
             alt="logo"
           />
@@ -16,11 +16,11 @@
             carros - kit de carretera - techos corredizos.
           </p>
           <div class="flex">
-            <a class="" target="_blank" rel="noreferrer">
+            <a href="#" class="" target="_blank" rel="noreferrer">
               <span class="sr-only"> Facebook </span>
               <img src="/assets/svg/icons8-facebook.svg" alt="" />
             </a>
-            <a class="" target="_blank" rel="noreferrer">
+            <a href="#" class="" target="_blank" rel="noreferrer">
               <span class="sr-only"> Instagram </span>
               <img src="/assets/svg/icons8-instagram.svg" alt="" />
             </a>
@@ -32,8 +32,8 @@
           <div>
             <p class="">Productos</p>
             <nav class="flex flex-col">
-              <a class="uppercase"> Tapetes perzonalizados</a>
-              <a class="uppercase"> Kits de carretera </a>
+              <a href="#" class="uppercase"> Tapetes perzonalizados</a>
+              <a href="#" class="uppercase"> Kits de carretera </a>
             </nav>
           </div>
           <div>

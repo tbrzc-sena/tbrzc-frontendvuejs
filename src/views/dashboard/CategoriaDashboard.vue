@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 import DashboardHeader from "./DashboardHeader.vue";
 import DashboardAside from "./DashboardAside.vue";
 </script>

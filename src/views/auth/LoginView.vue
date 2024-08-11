@@ -104,7 +104,7 @@ const login = async () => {
           <div class="hidden h-full rounded-r-md md:flex">
             <img
               class="h-full w-full rounded-r-md bg-cover bg-center bg-no-repeat"
-              src="assets/imgs/tapetes-final.png"
+              src="/public/assets/imgs/tapetes-final.webp"
             />
           </div>
         </div>

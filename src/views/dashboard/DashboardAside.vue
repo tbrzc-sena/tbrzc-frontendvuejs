@@ -15,7 +15,7 @@ const logout =()=>{
       <li class="p-4">
         <a href="#" class="">
           <div class="hidden md:block">
-            <img class="" src="assets/imgs/autocarpet_logo.png" alt="">
+            <img class="" src="/public/assets/imgs/autocarpet_logo.webp" alt="">
           </div>
         </a>
       </li>
