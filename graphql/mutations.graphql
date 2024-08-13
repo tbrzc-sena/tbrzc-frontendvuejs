@@ -79,7 +79,7 @@ mutation {
 }
 
 #producto
-mutation addProduct($imagen: String!, $precio: Int!, $nombre: String!, $cantidad: Int!, $tipoArticulo: String!, $descripcion: String!, $categoria: ID!, $modeloVehiculo: ID!, $tipoVehiculo: ID!, $marcaVehiculo: ID!) {
+mutation addProduct($imagen: String!, $precio: Int!, $nombre: String!, $cantidad: Int!, $tipoArticulo: String!, $descripcion: String!, $categoria: ID!, $modeloVehiculo: ID!) {
   createProduct(
     imageLink: $imagen
     price: $precio
@@ -87,13 +87,11 @@ mutation addProduct($imagen: String!, $precio: Int!, $nombre: String!, $cantidad
     itemStock: $cantidad
     itemType: $tipoArticulo
     itemDescription: $descripcion
-    category: $categoria
-    carModel: $modeloVehiculo
-    modelType: $tipoVehiculo
-    modelMake: $marcaVehiculo
+    categoryId: $categoria
+    carModelId: $modeloVehiculo
   ) {
     product {
-      inventoryItem{
+      inventoryItem {
         name
       }
     }

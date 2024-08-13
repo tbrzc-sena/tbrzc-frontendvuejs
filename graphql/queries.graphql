@@ -1,0 +1,19 @@
+query{
+  products {
+    edges {
+      node {
+        id
+        inventoryItem {
+          name
+          status
+          type
+          stock
+        }
+        category {
+          discount
+        }
+        price
+      }
+    }
+  }
+}
