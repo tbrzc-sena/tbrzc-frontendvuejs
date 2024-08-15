@@ -3,7 +3,7 @@ import DashboardHeader from "../views/dashboard/DashboardHeader.vue";
 import DashboardAside from "../views/dashboard/DashboardAside.vue";
 import gql from "graphql-tag";
 import { useQuery } from "@vue/apollo-composable";
-import { ref, computed, watch, onMounted, onBeforeMount } from "vue";
+import { ref, computed, watch, onBeforeMount } from "vue";
 import { useMutation } from "@vue/apollo-composable";
 import { useRouter } from "vue-router";
 const router = useRouter();

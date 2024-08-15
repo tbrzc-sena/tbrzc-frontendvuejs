@@ -8,7 +8,7 @@ import { useQuery } from "@vue/apollo-composable";
 import { useMutation } from "@vue/apollo-composable";
 let productsLst = ref();
 
-const LOGIN_MUTATION = gql`
+const FORM_DATA = gql`
   query{
   products {
     edges {
@@ -38,7 +38,7 @@ const DELETE_MUTATION = gql`
   }
 `;
 
-const { result, loading, error, onResult } = useQuery(LOGIN_MUTATION);
+const { result, loading, error, onResult } = useQuery(FORM_DATA);
 
 onResult((queryResult) => {
   productsLst.value = queryResult.data;
@@ -161,7 +161,7 @@ const deleteProduct = async (idf) => {
                   <RouterLink
                     :to="{
                       name: 'updateproductoview',
-                      params: { id: product.id },
+                      params: { id: product.id  },
                     }"
                     ><button
                       class="hover:bg-green-600 bg-green-700 font-bold text-white"
