@@ -21,7 +21,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 import { useToast } from "primevue/usetoast";
-
+/*
 const toast = useToast();
 const mostrarToast = () => {
   toast.add({
@@ -31,8 +31,24 @@ const mostrarToast = () => {
     life: 3000,
   });
 };
-
+*/
 const { mutate: data } = useMutation(LOGIN_MUTATION);
+
+const login = async () => {
+  try {
+    const response = "tokenfalsohehe";
+    if (response != "") {
+      store.setJwt(response)
+      router.push({ name: "productdashboard" })
+    }
+  } catch (error) {
+    store.error = error;
+  }
+};
+
+/*
+
+
 const login = async () => {
   try {
     const response = await data({
@@ -47,7 +63,7 @@ const login = async () => {
     store.error = error;
   }
 };
-
+*/
 </script>
 <template>
   <HeaderAlternative></HeaderAlternative>

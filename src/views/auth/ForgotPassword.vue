@@ -2,23 +2,6 @@
 import HeaderAlternative from "../base/HeaderAlternative.vue";
 import FooterBase from "../base/FooterBase.vue";
 
-import { Email } from "@/assets/smtp/smtp.js";
-
-
-const sendEmail = () => {
-  Email.send({
-
-    Host : "smtp.elasticemail.com",
-    Username : "username",
-    Password : "password",
-    To : 'them@website.com',
-    From : "javiervillabon2003@gmail.com",
-    Subject : "This is the subject",
-    Body : "And this is the body"
-}).then(
-  message => alert(message)
-);
-};
 </script>
 <template>
   <HeaderAlternative></HeaderAlternative>

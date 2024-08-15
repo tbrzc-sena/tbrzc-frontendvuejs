@@ -30,6 +30,7 @@ const logout =()=>{
           <span class="ml-3 text-lg">Productos</span>
         </RouterLink>
       </li>
+      <!--
       <li class="px-4 my-2">
         <RouterLink :to="{ name: 'categorias' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-blue-500">
@@ -38,6 +39,7 @@ const logout =()=>{
           <span class="ml-3 text-lg">Categorias</span>
         </RouterLink>
       </li>
+      -->
       <li class="px-4 my-2">
         <RouterLink :to="{ name: 'addproductoview' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-green-400">
