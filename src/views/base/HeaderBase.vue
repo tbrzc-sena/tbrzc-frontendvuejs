@@ -43,7 +43,7 @@ import { RouterLink } from 'vue-router'
                 >
               </li>
               <li class="mx-1">
-                <RouterLink :to="{ name: 'productosview' }" class="text-white"
+                <RouterLink :to="{ name: 'productosview', params: {'categoria': ' '} }" class="text-white"
                   >Productos</RouterLink
                 >
               </li>

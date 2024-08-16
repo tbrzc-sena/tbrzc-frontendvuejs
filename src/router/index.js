@@ -13,6 +13,7 @@ import PersonalizacionView from "../views/PersonalizacionView.vue";
 import CompraView from "../views/CompraView.vue";
 import CategoriaDashboard from "../views/dashboard/CategoriaDashboard.vue";
 import { useAuthStore } from "../store/Auth";
+import ProductFilter from "../components/ProductFilter.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,11 +28,17 @@ const router = createRouter({
     },
     {
       path: "/productos",
-      name: "productosview",
       component: ProductsView,
       meta: {
         requireAuth: false,
       },
+      children: [
+        {
+          path: "/:categoria",
+          name: "productosview",
+          component: ProductFilter,
+        },
+      ],
     },
     {
       path: "/productos/:id",

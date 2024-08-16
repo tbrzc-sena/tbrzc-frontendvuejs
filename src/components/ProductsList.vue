@@ -1,30 +1,8 @@
-<script>
-export default {
-  name: 'ProductsList',
-  data() {
-    return {
-      products: []
-    }
-  },
-  methods: {
-    async getProducts() {
-      const response = await fetch('http://localhost:8090/api/v1/productos')
-      const json = await response.json()
-      this.products = json
-    },
-    async deleteProduct(id) {
-      const response = await fetch(`http://localhost:8090/api/v1/productos/${id}/delete`, {
-        method: 'DELETE'
-      })
-      if (response.ok) {
-        this.getProducts()
-      }
-    }
-  },
-  beforeMount() {
-    this.getProducts()
-  }
-}
+<script setup>
+import { ref } from 'vue';
+
+
+let products = ref()
 </script>
 <template>
   <div>
