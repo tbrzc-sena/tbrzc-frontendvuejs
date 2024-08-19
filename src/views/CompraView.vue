@@ -1,4 +1,4 @@
-<script lang="ts">
+<script setup lang="ts">
 import HeaderAlternative from "./base/HeaderAlternative.vue";
 </script>
 
