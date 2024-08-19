@@ -168,7 +168,7 @@ const imageComputed = computed(() => producto.value.imagen);
               v-model="producto.descripcion"
               id="descripcion"
               class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
-              autoResize
+
             />
           </div>
           <div class="flex space-x-4">

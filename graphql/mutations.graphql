@@ -132,3 +132,17 @@ mutation login(
       }
     }
   }
+
+#update
+{
+  "id": "6",
+  "imagen": "https://example.com/imagen-producto.jpg",
+  "precio": 1500,
+  "nombre": "Filtro de Aire",
+  "cantidad": 20,
+  "tipoArticulo": "MAT",
+  "descripcion": "Filtro de aire de alta calidad para automóviles.",
+  "categoria":2,
+  "modeloVehiculo": 1
+}
+
