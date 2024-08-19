@@ -3,10 +3,11 @@ import DashboardHeader from "../views/dashboard/DashboardHeader.vue";
 import DashboardAside from "../views/dashboard/DashboardAside.vue";
 import gql from "graphql-tag";
 import { useQuery } from "@vue/apollo-composable";
-import { ref, computed, watch, onBeforeMount } from "vue";
+import { ref, computed, watch } from "vue";
 import { useMutation } from "@vue/apollo-composable";
 import { useRouter } from "vue-router";
 const router = useRouter();
+import Skeleton from "primevue/skeleton";
 
 const INFO_PRODUCT_QUERY = gql`
   query InfoForProductCreation {
@@ -85,25 +86,23 @@ let producto = ref({
   //tipoVehiculo: 0,//modelType
 });
 
-let dataJSON;
+
 
 const { result, loading, error } = useQuery(INFO_PRODUCT_QUERY);
-
-const dataLoaded = new Promise<void>((resolve) => {
-  watch(loading, (newLoading) => {
-    if (!newLoading && result.value) {
-      dataJSON = JSON.parse(JSON.stringify(result.value));
-      resolve();
-    }
-  });
-});
-
-onBeforeMount(async () => {
-  await dataLoaded;
-  categoria.value = dataJSON.productCategories.edges.map(edge => edge.node);
-  modelo.value = dataJSON.carModels.edges.map(edge => edge.node);
-  console.log(modelo.value);
-});
+watch(
+    [result, loading, error],
+    () => {
+      if (!loading.value && !error.value && result.value) {
+        categoria.value = result.value.productCategories.edges.map(
+          (edge) => edge.node
+        );
+        modelo.value = result.value.carModels.edges.map(
+          (edge) => edge.node
+        );
+      }
+    },
+    { immediate: true }
+  );
 
 const { mutate: data } = useMutation(ADD_PRODUCT_QUERY);
 const newProduct = async () => {;
@@ -214,7 +213,10 @@ const imageComputed = computed(() => producto.value.imagen);
               autoResize
             />
           </div>
-          <div class="flex space-x-4">
+          <div v-if="loading">
+          <Skeleton width="10rem" height="4rem"></Skeleton>
+        </div>
+          <div class="flex space-x-4" v-else>
             <div class="w-1/2">
               <label
                 for="categoria-vehiculo"
