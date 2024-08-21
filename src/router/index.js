@@ -14,6 +14,7 @@ import CompraView from "../views/CompraView.vue";
 import CategoriaDashboard from "../views/dashboard/CategoriaDashboard.vue";
 import { useAuthStore } from "../store/Auth";
 import ProductFilter from "../components/ProductFilter.vue";
+import ModeloVehiculo from "../views/dashboard/ModeloVehiculo.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -124,6 +125,14 @@ const router = createRouter({
       path: "/auth/categorias",
       name: "categorias",
       component: CategoriaDashboard,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/modelosvehiculo",
+      name: "modelosvehiculo",
+      component: ModeloVehiculo,
       meta: {
         requireAuth: true,
       },

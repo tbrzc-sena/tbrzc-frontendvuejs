@@ -146,3 +146,9 @@ mutation login(
   "modeloVehiculo": 1
 }
 
+#categoria
+mutation newCategory($nombre: String!, $descuento: Int) {
+  createProductCategory(name: $nombre, discount: $descuento) {
+    __typename
+  }
+}

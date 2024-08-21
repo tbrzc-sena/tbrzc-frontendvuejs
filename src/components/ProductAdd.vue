@@ -105,7 +105,7 @@ watch(
   );
 
 const { mutate: data } = useMutation(ADD_PRODUCT_QUERY);
-const newProduct = async () => {;
+const newProduct = async () => {
 
   try {
     const response = await data({

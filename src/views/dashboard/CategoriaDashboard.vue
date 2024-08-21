@@ -1,6 +1,35 @@
-<script setup >
+<script setup>
 import DashboardHeader from "./DashboardHeader.vue";
 import DashboardAside from "./DashboardAside.vue";
+import gql from "graphql-tag";
+import { useMutation } from "@vue/apollo-composable";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const ADD_CATEGORY_QUERY = gql`
+  mutation newCategory($nombre: String!, $descuento: Int) {
+    createProductCategory(name: $nombre, discount: $descuento) {
+      __typename
+    }
+  }
+`;
+
+let categoria = ref("");
+let descuento = ref(0);
+const { mutate: data } = useMutation(ADD_CATEGORY_QUERY);
+const newCategory = async () => {
+  try {
+    const response = await data({
+      nombre: categoria.value,
+      descuento: descuento.value,
+    });
+
+    router.push({ name: "productdashboard" });
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 <template>
   <div>
@@ -8,35 +37,36 @@ import DashboardAside from "./DashboardAside.vue";
     <div class="grid grid-cols-4 h-screen pt-5 bg-gray-100">
       <DashboardAside></DashboardAside>
       <div class="col-span-2 p-6 bg-white rounded-lg shadow-lg relative">
-        <h1 class="text-2xl font-semibold mb-6">Nuevo categoria</h1>
-        <form class="">
-          <div class="flex justify-stretch">
+        <h1 class="text-2xl font-semibold mb-6">Nueva categoria</h1>
+        <form @submit.prevent="newCategory()">
+          <div class="flex justify-stretch gap-4">
             <div class="w-1/2">
-              <label
-                for="marca-vehiculo"
-                class="block text-sm font-medium text-gray-700"
-                >Nombre categoria</label
-              >
-              <Select
-                optionLabel="nombreMarcaVehiculo"
-                placeholder="Nombre"
-                class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
-                id="marca-vehiculo"
-              />
+              <div class="flex flex-col gap-2">
+                <label for="username">Nombre de la categoria</label>
+                <InputText
+                  id="username"
+                  v-model="categoria"
+                  aria-describedby="username-help"
+                  class="w-full border-gray-300 rounded-md shadow-sm"
+                />
+                <small id="username-help"
+                  >Procura un nombre descriptivo y unico para la categoria que
+                  deseas agregar</small
+                >
+              </div>
             </div>
-            <div class="ml-8 w-1/2">
-              <label
-                for="cantidad"
-                class="block text-sm font-medium text-gray-700"
-                >Descuento categoria</label
-              >
-              <InputNumber
-                inputId="minmax"
-                :min="0"
-                :max="100"
-                id="cantidad"
-                class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
-              />
+            <div class="w-1/2">
+              <div class="flex flex-col gap-2">
+                <label for="descuento">Descuento categoria</label>
+                <InputNumber
+                  inputId="minmax"
+                  :min="0"
+                  :max="100"
+                  id="descuento"
+                  class="w-full border-gray-300 rounded-md shadow-sm"
+                  v-model="descuento"
+                />
+              </div>
             </div>
           </div>
           <div class="flex justify-end mt-4">
@@ -52,4 +82,3 @@ import DashboardAside from "./DashboardAside.vue";
     </div>
   </div>
 </template>
-<style scoped></style>
