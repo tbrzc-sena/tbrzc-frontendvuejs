@@ -18,17 +18,17 @@ mutation {
 #modelo vehiculo
 mutation {
   createCarModel(
-    makeName: "hyundai"
-    name: "h100"
+    name: "hyundai"
     year: 1960
-    type: "1"
-    make: "1"
+    typeId: "1"
+    makeId: "1"
   ) {
     carModel {
       name
     }
   }
 }
+
 
 #localidad
 mutation {
