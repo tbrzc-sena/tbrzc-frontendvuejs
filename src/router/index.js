@@ -15,7 +15,9 @@ import CategoriaDashboard from "../views/dashboard/CategoriaDashboard.vue";
 import { useAuthStore } from "../store/Auth";
 import ProductFilter from "../components/ProductFilter.vue";
 import ModeloVehiculo from "../views/dashboard/ModeloVehiculo.vue";
-
+import ListaCategorias from "../views/dashboard/ListaCategorias.vue";
+import TiposVehiculo from "../views/dashboard/TiposVehiculo.vue";
+import ModelosVehiculo from "../views/dashboard/ModelosVehiculo.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -133,6 +135,31 @@ const router = createRouter({
       path: "/auth/modelosvehiculo",
       name: "modelosvehiculo",
       component: ModeloVehiculo,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/listaCategorias",
+      name: "listaCategorias",
+      component: ListaCategorias,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/listaTiposVehiculo",
+      name: "listaTiposVehiculo",
+      component: TiposVehiculo,
+      meta: {
+        requireAuth: true,
+      },
+    },
+
+    {
+      path: "/auth/listaModelosVehiculo",
+      name: "listaModelosVehiculo",
+      component: ModelosVehiculo,
       meta: {
         requireAuth: true,
       },

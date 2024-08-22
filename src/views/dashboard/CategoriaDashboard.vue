@@ -70,6 +70,15 @@ const newCategory = async () => {
             </div>
           </div>
           <div class="flex justify-end mt-4">
+            <RouterLink
+                    :to="{
+                      name: 'listaTiposVehiculo'
+                    }"
+                    ><button class="mx-1 hover:bg-green-600 bg-green-700 text-white">Editar Categoria existente</button></RouterLink
+                  >
+
+
+
             <button
               type="submit"
               class="border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

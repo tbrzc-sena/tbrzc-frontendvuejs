@@ -101,35 +101,37 @@ const newModeloVehiculo = async () => {};
 
 
           <div class="flex space-x-4">
-            <div class="w-1/2">
-              <label
-                for="tipo-vehiculo"
-                class="block text-sm font-medium text-gray-700"
-                >Tipo Vehiculo</label
-              >
-              <Select
-                v-model="tipo"
-                optionLabel="name"
-                placeholder="Tipo Vehiculo"
-                class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
-                id="tipo-vehiculo"
-              />
-            </div>
-            <div class="w-1/2">
-              <label
-                for="marca-vehiculo"
-                class="block text-sm font-medium text-gray-700"
-                >Modelo vehiculo</label
-              >
-              <Select
-                v-model="marca"
-                optionLabel="name"
-                placeholder="Marca Vehiculo"
-                class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
-                id="marca-vehiculo"
-              />
-            </div>
-          </div>
+  <div class="w-1/2">
+    <label for="tipo-vehiculo" class="block text-sm font-medium text-gray-700">Tipo Vehiculo</label>
+    <div class="flex items-center space-x-2 mt-1">
+      <Select
+        v-model="tipo"
+        optionLabel="name"
+        placeholder="Tipo Vehiculo"
+        class="w-full border-gray-300 rounded-md shadow-sm"
+        id="tipo-vehiculo"
+      />
+      <RouterLink :to="{ name: 'listaCategorias' }">
+        <button class="hover:bg-blue-600 bg-blue-500 text-white">ver</button>
+      </RouterLink>
+    </div>
+  </div>
+  <div class="w-1/2">
+    <label for="marca-vehiculo" class="block text-sm font-medium text-gray-700">Modelo vehiculo</label>
+    <div class="flex items-center space-x-2 mt-1">
+      <Select
+        v-model="marca"
+        optionLabel="name"
+        placeholder="Marca Vehiculo"
+        class="w-full border-gray-300 rounded-md shadow-sm"
+        id="marca-vehiculo"
+      />
+      <RouterLink :to="{ name: 'listaModelosVehiculo' }">
+        <button class="hover:bg-blue-600 bg-blue-500 text-white">ver</button>
+      </RouterLink>
+    </div>
+  </div>
+</div>
 
           <div>
             <button
