@@ -88,13 +88,15 @@ import { RouterLink } from "vue-router";
             <div
               class="flex flex-col w-3/4 h-min rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1 my-4"
             >
-              <a href="#!" class="">
-                <img
+
+            <RouterLink
+                :to="{ name: 'productosview', params: { categoria: 'deluxe' }, }"
+                class="text-white"
+                ><img
                   class="rounded-t-lg"
                   src="/public/assets/imgs/tapete_carro-deluxe-1-510x510-1.webp"
                   alt="Hollywood Sign on The Hill"
-                />
-              </a>
+                /></RouterLink>
               <div class="flex flex-col m-4 justify-evenly">
                 <a href="product_detail.html">
                   <p class="font-semibold text-blue-900 text-2xl md:text-lg">
@@ -111,13 +113,14 @@ import { RouterLink } from "vue-router";
             <div
               class="flex flex-col w-3/4 h-min rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1 my-4"
             >
-              <a href="#!" class="">
-                <img
+            <RouterLink
+                :to="{ name: 'productosview', params: { categoria: 'ultramat' }, }"
+                class="text-white"
+                ><img
                   class="rounded-t-lg"
                   src="/public/assets/imgs/pvc_ultramat.webp"
                   alt="Hollywood Sign on The Hill"
-                />
-              </a>
+                /></RouterLink>
               <div class="flex flex-col m-4 justify-evenly">
                 <a href="product_detail.html">
                   <p class="font-semibold text-blue-900 text-2xl md:text-lg">
@@ -133,13 +136,14 @@ import { RouterLink } from "vue-router";
             <div
               class="flex flex-col w-3/4 h-min rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1 my-4"
             >
-              <a href="#!" class="">
-                <img
+            <RouterLink
+                :to="{ name: 'productosview', params: { categoria: 'ironmat' }, }"
+                class="text-white"
+                ><img
                   class="rounded-t-lg"
                   src="/public/assets/imgs/pvc_ironmat.webp"
                   alt="Hollywood Sign on The Hill"
-                />
-              </a>
+                /></RouterLink>
               <div class="flex flex-col m-4 justify-evenly">
                 <a href="product_detail.html">
                   <p class="font-semibold text-blue-900 text-2xl md:text-lg">
@@ -156,13 +160,14 @@ import { RouterLink } from "vue-router";
             <div
               class="flex flex-col w-3/4 h-min rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1 my-4"
             >
-              <a href="#!" class="">
-                <img
+            <RouterLink
+                :to="{ name: 'productosview', params: { categoria: 'viper' }, }"
+                class="text-white"
+                ><img
                   class="rounded-t-lg"
                   src="/public/assets/imgs/viper.webp"
                   alt="Hollywood Sign on The Hill"
-                />
-              </a>
+                /></RouterLink>
               <div class="flex flex-col m-4 justify-evenly">
                 <a href="product_detail.html">
                   <p class="font-semibold text-blue-900 text-2xl md:text-lg">
@@ -178,13 +183,14 @@ import { RouterLink } from "vue-router";
             <div
               class="flex flex-col w-3/4 h-min rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1 my-4"
             >
-              <a href="#!" class="">
-                <img
+            <RouterLink
+                :to="{ name: 'productosview', params: { categoria: 'termoformado' }, }"
+                class="text-white"
+                ><img
                   class="rounded-t-lg"
                   src="/public/assets/imgs/tapetes-termoformados-550x550.webp"
                   alt="Hollywood Sign on The Hill"
-                />
-              </a>
+                /></RouterLink>
               <div class="flex flex-col m-4 justify-evenly">
                 <a href="product_detail.html">
                   <p class="font-semibold text-blue-900 text-2xl md:text-lg">
