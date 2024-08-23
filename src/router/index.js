@@ -18,6 +18,9 @@ import ModeloVehiculo from "../views/dashboard/ModeloVehiculo.vue";
 import ListaCategorias from "../views/dashboard/ListaCategorias.vue";
 import TiposVehiculo from "../views/dashboard/TiposVehiculo.vue";
 import ModelosVehiculo from "../views/dashboard/ModelosVehiculo.vue";
+import CategoriaUpdate from "../views/dashboard/CategoriaUpdate.vue";
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -164,6 +167,15 @@ const router = createRouter({
         requireAuth: true,
       },
     },
+    {
+      path: "/auth/categorias/:id/edit",
+      name: "categoriaupdate",
+      component: CategoriaUpdate,
+      meta: {
+        requireAuth: true,
+      },
+    }
+
   ],
 });
 router.beforeEach((to, from, next) => {

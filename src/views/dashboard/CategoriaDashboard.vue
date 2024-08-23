@@ -72,7 +72,7 @@ const newCategory = async () => {
           <div class="flex justify-end mt-4">
             <RouterLink
                     :to="{
-                      name: 'listaTiposVehiculo'
+                      name: 'listaCategorias',
                     }"
                     ><button class="mx-1 hover:bg-green-600 bg-green-700 text-white">Editar Categoria existente</button></RouterLink
                   >

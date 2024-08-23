@@ -111,7 +111,7 @@ const newModeloVehiculo = async () => {};
         class="w-full border-gray-300 rounded-md shadow-sm"
         id="tipo-vehiculo"
       />
-      <RouterLink :to="{ name: 'listaCategorias' }">
+      <RouterLink :to="{ name: 'listaTiposVehiculo' }">
         <button class="hover:bg-blue-600 bg-blue-500 text-white">ver</button>
       </RouterLink>
     </div>
