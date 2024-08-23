@@ -19,6 +19,8 @@ import ListaCategorias from "../views/dashboard/ListaCategorias.vue";
 import TiposVehiculo from "../views/dashboard/TiposVehiculo.vue";
 import ModelosVehiculo from "../views/dashboard/ModelosVehiculo.vue";
 import CategoriaUpdate from "../views/dashboard/CategoriaUpdate.vue";
+import TipoVehiculoUpdate from "../views/dashboard/TipoVehiculoUpdate.vue";
+import ModeloUpdate from "../views/dashboard/ModeloUpdate.vue";
 
 
 const router = createRouter({
@@ -171,6 +173,23 @@ const router = createRouter({
       path: "/auth/categorias/:id/edit",
       name: "categoriaupdate",
       component: CategoriaUpdate,
+      meta: {
+        requireAuth: true,
+      },
+    }
+    ,
+    {
+      path: "/auth/tipovehiculo/:id/edit",
+      name: "tipoVehiculoUpdate",
+      component: TipoVehiculoUpdate,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/modelovehiculo/:id/edit",
+      name: "modeloVehiculoUpdate",
+      component: ModeloUpdate,
       meta: {
         requireAuth: true,
       },
