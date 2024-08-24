@@ -59,6 +59,7 @@ import { RouterLink } from 'vue-router'
                   >Ingresar</RouterLink
                 >
               </li>
+              <!--
               <li class="mx-1">
                 <RouterLink
                   :to="{ name: 'carritodecompras' }"
@@ -66,6 +67,7 @@ import { RouterLink } from 'vue-router'
                   >Compras<span class="fa-solid fa-cart-shopping"></span></RouterLink
                 >
               </li>
+              -->
             </ul>
           </div>
         </div>

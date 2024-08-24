@@ -33,7 +33,6 @@
             <p class="">Productos</p>
             <nav class="flex flex-col">
               <a href="#" class="uppercase"> Tapetes perzonalizados</a>
-              <a href="#" class="uppercase"> Kits de carretera </a>
             </nav>
           </div>
           <div>

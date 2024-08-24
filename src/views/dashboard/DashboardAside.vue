@@ -13,11 +13,10 @@ const logout =()=>{
   <div class="flex col-span-1 row-span-4 rounded-md">
     <ul class="flex w-full flex-col">
       <li class="p-4">
-        <a href="#" class="">
           <div class="hidden md:block">
             <img class="" src="/public/assets/imgs/autocarpet_logo.webp" alt="">
           </div>
-        </a>
+
       </li>
       <li class="px-4 my-2">
         <span class="font-medium uppercase text-gray-400">Productos</span>
@@ -44,16 +43,31 @@ const logout =()=>{
           <span class="text-blue-500">
             <i class="fa-solid fa-car text-2xl"></i>
           </span>
-          <span class="ml-3 text-lg">Modelo Vehiculo</span>
+          <span class="ml-3 text-lg">Modelos Vehiculo</span>
         </RouterLink>
       </li>
-
+      <li class="px-4 my-2">
+        <RouterLink :to="{ name: 'addproductoview' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
+          <span class="text-blue-500">
+            <i class="fa-solid fa-handshake-angle text-2xl"></i>
+          </span>
+          <span class="ml-3 text-lg">Marcas</span>
+        </RouterLink>
+      </li>
+      <li class="px-4 my-2">
+        <RouterLink :to="{ name: 'addproductoview' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
+          <span class="text-blue-500">
+            <i class="fa-solid fa-highlighter text-2xl"></i>
+          </span>
+          <span class="ml-3 text-lg">Personalizaciónes</span>
+        </RouterLink>
+      </li>
       <li class="px-4 my-2">
         <RouterLink :to="{ name: 'addproductoview' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-green-400">
             <i class="fa-solid fa-plus text-2xl"></i>
           </span>
-          <span class="ml-3 text-lg">Add new</span>
+          <span class="ml-3 text-lg">Nuevo Producto</span>
         </RouterLink>
       </li>
       <li class="px-4 my-2">
