@@ -12,7 +12,7 @@ import FooterBase from "../base/FooterBase.vue";
           <div
             class="hidden rounded-l-lg bg-cover lg:block lg:w-1/2"
             style="
-              background-image: url(&quot;assets/imgs/banners_autocarpet_tapetesgeneralMesa-de-trabajo-1-1100x519.png&quot;);
+              background-image: url(&quot;assets/imgs/banners_autocarpet_tapetesgeneralMesa-de-trabajo-1-1100x519.webp&quot;);
             "
           ></div>
           <div

@@ -108,7 +108,6 @@ const newModeloVehiculo = async () => {};
                 <Select
                   v-model="tipo"
                   optionLabel="name"
-                  placeholder="Tipo Vehiculo"
                   class="w-full border-gray-300 rounded-md shadow-sm"
                   id="tipo-vehiculo"
                 />
@@ -123,17 +122,16 @@ const newModeloVehiculo = async () => {};
               <label
                 for="marca-vehiculo"
                 class="block text-sm font-medium text-gray-700"
-                >Modelo vehiculo</label
+                >Marca vehiculo</label
               >
               <div class="flex items-center space-x-2 mt-1">
                 <Select
                   v-model="marca"
                   optionLabel="name"
-                  placeholder="Marca Vehiculo"
                   class="w-full border-gray-300 rounded-md shadow-sm"
                   id="marca-vehiculo"
                 />
-                <RouterLink :to="{ name: 'listaModelosVehiculo' }">
+                <RouterLink :to="{ name: 'marcasvehiculos' }">
                   <button class="hover:bg-blue-600 bg-blue-500 text-white">
                     ver
                   </button>
@@ -142,13 +140,22 @@ const newModeloVehiculo = async () => {};
             </div>
           </div>
 
-          <div>
+          <div class="flex justify-end mt-4 space-x-2">
+            <RouterLink
+              :to="{
+                name: 'listaModelosVehiculo',
+              }"
+              ><button class="mx-1 hover:bg-green-600 bg-green-700 text-white">
+                Editar un Modelo existente
+              </button></RouterLink
+            >
             <button
               type="submit"
-              class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Agregar
             </button>
+
           </div>
         </form>
       </div>

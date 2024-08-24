@@ -21,6 +21,7 @@ import ModelosVehiculo from "../views/dashboard/ModelosVehiculo.vue";
 import CategoriaUpdate from "../views/dashboard/CategoriaUpdate.vue";
 import TipoVehiculoUpdate from "../views/dashboard/TipoVehiculoUpdate.vue";
 import ModeloUpdate from "../views/dashboard/ModeloUpdate.vue";
+import MarcaVehiculo from "../views/dashboard/MarcaVehiculo.vue";
 
 
 const router = createRouter({
@@ -190,6 +191,15 @@ const router = createRouter({
       path: "/auth/modelovehiculo/:id/edit",
       name: "modeloVehiculoUpdate",
       component: ModeloUpdate,
+      meta: {
+        requireAuth: true,
+      },
+    }
+    ,
+    {
+      path: "/auth/marcasvehiculos",
+      name: "marcasvehiculos",
+      component: MarcaVehiculo,
       meta: {
         requireAuth: true,
       },

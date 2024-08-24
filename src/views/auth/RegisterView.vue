@@ -175,19 +175,6 @@ const register = async () => {
               </div>
             </form>
 
-            <div class="flex items-center justify-between">
-              <div class="h-1 w-full bg-gray-300"></div>
-              <span class="mx-6 text-sm uppercase text-gray-400">O</span>
-              <div class="h-1 w-full bg-gray-300"></div>
-            </div>
-            <div class="flex flex-col items-center">
-              <p>
-                <a href="#" class="">
-                  <span class="fa-brands fa-google mb-4 py-2"></span>
-                  Registrarse con Google
-                </a>
-              </p>
-            </div>
           </div>
         </div>
       </div>
