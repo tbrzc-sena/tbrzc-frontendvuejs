@@ -6,8 +6,12 @@ import { useQuery } from "@vue/apollo-composable";
 import { ref, computed, watch } from "vue";
 import { useMutation } from "@vue/apollo-composable";
 import { useRouter } from "vue-router";
+import { useToast } from 'primevue/usetoast';
 const router = useRouter();
 import Skeleton from "primevue/skeleton";
+import Toast from 'primevue/toast';
+
+const toast = useToast();
 
 const INFO_PRODUCT_QUERY = gql`
   query InfoForProductCreation {
@@ -70,7 +74,7 @@ const ADD_PRODUCT_QUERY = gql`
 `;
 
 let categoria = ref();
-let tipo = ref(["MAT", "RAW", "CUS"]);
+let tipo = ref(["Material", "Tapete", "Personalizado"]);
 let modelo = ref();
 
 let producto = ref({
@@ -79,14 +83,22 @@ let producto = ref({
   nombre: "", //itemName
   descripcion: "", //description
   cantidad: 0, //itemStock
-  tipoArticulo: 0, //itemType
+  tipoArticulo: "", //itemType
   modeloVehiculo: 0, //carModel
   //marcaVehiculo: 0,//modelMake
   categoria: 0, //category
   //tipoVehiculo: 0,//modelType
 });
 
-
+const isValidURL = (string) => {
+  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return !!pattern.test(string);
+};
 
 const { result, loading, error } = useQuery(INFO_PRODUCT_QUERY);
 watch(
@@ -104,11 +116,22 @@ watch(
     { immediate: true }
   );
 
+
+
+
 const { mutate: data } = useMutation(ADD_PRODUCT_QUERY);
 const newProduct = async () => {
 
+  let selectedTipo = producto.value.tipoArticulo;
+    if (selectedTipo === "Material") {
+      producto.value.tipoArticulo = "RAW";
+    } else if (selectedTipo === "Tapete") {
+      producto.value.tipoArticulo = "MAT";
+    } else if (selectedTipo === "Personalizado") {
+      producto.value.tipoArticulo = "CUS";
+    }
   try {
-    const response = await data({
+ response = await data({
       imagen: producto.value.imagen,
       precio: producto.value.precio,
       nombre: producto.value.nombre,
@@ -121,10 +144,23 @@ const newProduct = async () => {
     });
     router.push({ name: "productdashboard" });
   } catch (error) {
-    console.log(error);
+    toast.add({ severity: 'error', summary: 'Error', detail: 'El nombre del producto ya existe!!', life: 3000 });
   }
 };
 
+const showToast = () => {
+  if (!isValidURL(producto.value.imagen)) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'La URL de la imagen no es válida', life: 3000 });
+  }else{
+    if(producto.value.precio <= 0 || producto.value.cantidad <= 0){
+      toast.add({ severity: 'error', summary: 'Error', detail: 'El precio o la cantidad no pueden ser menores o iguales a 0', life: 3000 })
+    }else if(producto.value.nombre === "" || producto.value.descripcion === "" || producto.value.tipoArticulo === "" || producto.value.categoria === 0 || producto.value.modeloVehiculo === 0){
+      toast.add({ severity: 'error', summary: 'Error', detail: 'Todos los campos son obligatorios', life: 3000 })
+    }else{
+      newProduct();
+    }
+  }
+};
 const imageComputed = computed(() => producto.value.imagen);
 </script>
 <template>
@@ -138,12 +174,12 @@ const imageComputed = computed(() => producto.value.imagen);
         >
           <img
             :src="imageComputed"
-            alt="Imagen"
+            alt="ingrese la url de la imagen"
             class="w-full h-full object-cover rounded-lg"
           />
         </div>
         <h1 class="text-2xl font-semibold mb-6">Nuevo producto</h1>
-        <form @submit.prevent="newProduct()" class="space-y-6">
+        <form @submit.prevent class="space-y-6">
           <div>
             <label
               for="nombre-articulo"
@@ -167,7 +203,7 @@ const imageComputed = computed(() => producto.value.imagen);
               v-model="producto.descripcion"
               id="descripcion"
               class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
-
+               rows="5" cols="30"
             />
           </div>
           <div class="flex space-x-4">
@@ -180,6 +216,7 @@ const imageComputed = computed(() => producto.value.imagen);
                 inputId="integeronly"
                 suffix="COP"
                 id="price"
+                :min="1000" :max="2000000"
                 class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
               />
             </div>
@@ -267,12 +304,15 @@ const imageComputed = computed(() => producto.value.imagen);
             </div>
           </div>
           <div>
+            <Toast />
             <button
+              @click="showToast()"
               type="submit"
               class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Agregar
             </button>
+
           </div>
         </form>
       </div>

@@ -16,7 +16,8 @@ let productId = ref(route.params.id);
 let decodedID = computed(() => atob(productId.value).split(":")[1]);
 
 let categoria = ref();
-let tipo = ref(["MAT", "RAW", "CUS"]);
+let tipo = ref(["Material", "Tapete", "Personalizado"]);
+
 let modelo = ref();
 
 const INFO_PRODUCT_QUERY = gql`
@@ -63,7 +64,7 @@ let producto = ref({
   nombre: "", //itemName
   descripcion: "", //description
   cantidad: 0, //itemStock
-  tipoArticulo: 0, //itemType
+  tipoArticulo: "", //itemType
   modeloVehiculo: "", //carModel
   //marcaVehiculo: 0,//modelMake
   categoria: "", //category
@@ -187,6 +188,14 @@ watch(
 const { mutate } = useMutation(UPDATE_PRODUCT_MUTATION);
 const updateProduct = async () => {
   try {
+    let selectedTipo = producto.value.tipoArticulo;
+    if (selectedTipo === "Material") {
+      producto.value.tipoArticulo = "RAW";
+    } else if (selectedTipo === "Tapete") {
+      producto.value.tipoArticulo = "MAT";
+    } else if (selectedTipo === "Personalizado") {
+      producto.value.tipoArticulo = "CUS";
+    }
     const response = await mutate({
       id: producto.value.id,
       modeloVehiculo: atob(producto.value.modeloVehiculo.id).split(":")[1],
@@ -218,7 +227,7 @@ const imageComputed = computed(() => producto.value.imagen);
         >
           <img
             :src="imageComputed"
-            alt="Imagen"
+            alt="ingrese el url de la imagen"
             class="w-full h-full object-cover rounded-lg"
           />
         </div>
