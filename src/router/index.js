@@ -22,6 +22,7 @@ import CategoriaUpdate from "../views/dashboard/CategoriaUpdate.vue";
 import TipoVehiculoUpdate from "../views/dashboard/TipoVehiculoUpdate.vue";
 import ModeloUpdate from "../views/dashboard/ModeloUpdate.vue";
 import MarcaVehiculo from "../views/dashboard/MarcaVehiculo.vue";
+import SolicitudPersonalizacion from "../views/dashboard/SolicitudPersonalizacion.vue";
 
 
 const router = createRouter({
@@ -204,7 +205,15 @@ const router = createRouter({
         requireAuth: true,
       },
     }
-
+    ,
+    {
+      path: "/auth/personalizaciones",
+      name: "personalizaciones",
+      component: SolicitudPersonalizacion,
+      meta: {
+        requireAuth: true,
+      },
+    }
   ],
 });
 router.beforeEach((to, from, next) => {
