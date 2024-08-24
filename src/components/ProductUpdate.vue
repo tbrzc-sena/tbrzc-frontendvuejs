@@ -9,14 +9,16 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 import { useRoute } from "vue-router";
 const route = useRoute();
-
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
+const toast = useToast();
 import Skeleton from "primevue/skeleton";
 
 let productId = ref(route.params.id);
 let decodedID = computed(() => atob(productId.value).split(":")[1]);
 
 let categoria = ref();
-let tipo = ref(["Material", "Tapete", "Personalizado"]);
+let tipo = ref(["Material", "Tapete", "Orden Personalizada"]);
 
 let modelo = ref();
 
@@ -193,7 +195,7 @@ const updateProduct = async () => {
       producto.value.tipoArticulo = "RAW";
     } else if (selectedTipo === "Tapete") {
       producto.value.tipoArticulo = "MAT";
-    } else if (selectedTipo === "Personalizado") {
+    } else if (selectedTipo === "Orden Personalizada") {
       producto.value.tipoArticulo = "CUS";
     }
     const response = await mutate({
@@ -213,7 +215,32 @@ const updateProduct = async () => {
   }
 };
 
+
+const isValidURL = (string) => {
+  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return !!pattern.test(string);
+};
+
 const imageComputed = computed(() => producto.value.imagen);
+
+const showToast = () => {
+  if (!isValidURL(producto.value.imagen)) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'La URL de la imagen no es válida', life: 3000 });
+  }else{
+    if(producto.value.precio <= 0 || producto.value.cantidad <= 0){
+      toast.add({ severity: 'error', summary: 'Error', detail: 'El precio o la cantidad no pueden ser menores o iguales a 0', life: 3000 })
+    }else if(producto.value.nombre === "" || producto.value.descripcion === "" || producto.value.tipoArticulo === "" || producto.value.categoria === 0 || producto.value.modeloVehiculo === 0){
+      toast.add({ severity: 'error', summary: 'Error', detail: 'Todos los campos son obligatorios', life: 3000 })
+    }else{
+      updateProduct();
+    }
+  }
+};
 </script>
 
 <template>
@@ -233,13 +260,13 @@ const imageComputed = computed(() => producto.value.imagen);
         </div>
         <h1 class="text-2xl font-semibold mb-6">Actualizar producto</h1>
         <div v-if="loading">
-          <Skeleton class="mb-2"></Skeleton>
-          <Skeleton width="10rem" class="mb-2"></Skeleton>
-          <Skeleton width="5rem" class="mb-2"></Skeleton>
-          <Skeleton height="2rem" class="mb-2"></Skeleton>
-          <Skeleton width="10rem" height="4rem"></Skeleton>
+          <Skeleton ></Skeleton>
+          <Skeleton width="7rem" ></Skeleton>
+          <Skeleton width="5rem" ></Skeleton>
+          <Skeleton height="2rem" ></Skeleton>
+          <Skeleton width="7rem" height="4rem"></Skeleton>
         </div>
-        <form v-else @submit.prevent="updateProduct()" class="space-y-6">
+        <form v-else @submit.prevent class="space-y-6">
           <div>
             <label
               for="nombre-articulo"
@@ -361,8 +388,10 @@ const imageComputed = computed(() => producto.value.imagen);
           </div>
 
           <div>
+            <Toast />
             <button
               type="submit"
+              @click="showToast()"
               class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Agregar

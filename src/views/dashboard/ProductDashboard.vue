@@ -7,7 +7,9 @@ import { RouterLink } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
 import { useMutation } from "@vue/apollo-composable";
 let productsLst = ref();
-
+import Toast from "primevue/toast";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 const FORM_DATA = gql`
   query{
   products {
@@ -59,7 +61,15 @@ const deleteProduct = async (idf) => {
     console.log(error);
   }
 };
-
+const showToast = (idf) => {
+  toast.add({
+    severity: "success",
+    summary: "Categoria eliminada",
+    detail: "La categoria ha sido eliminada con exito",
+    life: 2000,
+  });
+  deleteProduct(idf);
+};
 </script>
 <template>
   <div class="min-h-screen">
@@ -70,6 +80,7 @@ const deleteProduct = async (idf) => {
         <div
           class="col-span-3 m-5 row-span-3 shadow overflow-hidden rounded border-b border-gray-200 bg-white"
         >
+
           <table class="">
             <thead class="">
               <tr>
@@ -171,9 +182,10 @@ const deleteProduct = async (idf) => {
                   >
                 </td>
                 <td class="align-middle">
+                  <Toast />
                   <button
                     class="hover:bg-red-700 bg-red-500 font-bold text-white"
-                    @click="deleteProduct(product.id)"
+                    @click="showToast(product.id)"
                   >
                     Eliminar
                   </button>

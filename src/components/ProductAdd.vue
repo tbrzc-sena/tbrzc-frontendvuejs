@@ -6,10 +6,10 @@ import { useQuery } from "@vue/apollo-composable";
 import { ref, computed, watch } from "vue";
 import { useMutation } from "@vue/apollo-composable";
 import { useRouter } from "vue-router";
-import { useToast } from 'primevue/usetoast';
+import { useToast } from "primevue/usetoast";
 const router = useRouter();
 import Skeleton from "primevue/skeleton";
-import Toast from 'primevue/toast';
+import Toast from "primevue/toast";
 
 const toast = useToast();
 
@@ -91,38 +91,36 @@ let producto = ref({
 });
 
 const isValidURL = (string) => {
-  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); // fragment locator
   return !!pattern.test(string);
 };
 
 const { result, loading, error } = useQuery(INFO_PRODUCT_QUERY);
 watch(
-    [result, loading, error],
-    () => {
-      if (!loading.value && !error.value && result.value) {
-        categoria.value = result.value.productCategories.edges.map(
-          (edge) => edge.node
-        );
-        modelo.value = result.value.carModels.edges.map(
-          (edge) => edge.node
-        );
-      }
-    },
-    { immediate: true }
-  );
-
-
-
+  [result, loading, error],
+  () => {
+    if (!loading.value && !error.value && result.value) {
+      categoria.value = result.value.productCategories.edges.map(
+        (edge) => edge.node
+      );
+      modelo.value = result.value.carModels.edges.map((edge) => edge.node);
+    }
+  },
+  { immediate: true }
+);
 
 const { mutate: data } = useMutation(ADD_PRODUCT_QUERY);
 const newProduct = async () => {
-
-  let selectedTipo = producto.value.tipoArticulo;
+  try {
+    let selectedTipo = producto.value.tipoArticulo;
     if (selectedTipo === "Material") {
       producto.value.tipoArticulo = "RAW";
     } else if (selectedTipo === "Tapete") {
@@ -130,8 +128,7 @@ const newProduct = async () => {
     } else if (selectedTipo === "Personalizado") {
       producto.value.tipoArticulo = "CUS";
     }
-  try {
- response = await data({
+    const response = await data({
       imagen: producto.value.imagen,
       precio: producto.value.precio,
       nombre: producto.value.nombre,
@@ -140,23 +137,50 @@ const newProduct = async () => {
       descripcion: producto.value.descripcion,
 
       categoria: atob(producto.value.categoria.id).split(":")[1],
-      modeloVehiculo:atob( producto.value.modeloVehiculo.id).split(":")[1],
+      modeloVehiculo: atob(producto.value.modeloVehiculo.id).split(":")[1],
     });
     router.push({ name: "productdashboard" });
+
   } catch (error) {
-    toast.add({ severity: 'error', summary: 'Error', detail: 'El nombre del producto ya existe!!', life: 3000 });
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "El nombre del producto ya existe!!",
+      life: 3000,
+    });
   }
 };
 
 const showToast = () => {
   if (!isValidURL(producto.value.imagen)) {
-    toast.add({ severity: 'error', summary: 'Error', detail: 'La URL de la imagen no es válida', life: 3000 });
-  }else{
-    if(producto.value.precio <= 0 || producto.value.cantidad <= 0){
-      toast.add({ severity: 'error', summary: 'Error', detail: 'El precio o la cantidad no pueden ser menores o iguales a 0', life: 3000 })
-    }else if(producto.value.nombre === "" || producto.value.descripcion === "" || producto.value.tipoArticulo === "" || producto.value.categoria === 0 || producto.value.modeloVehiculo === 0){
-      toast.add({ severity: 'error', summary: 'Error', detail: 'Todos los campos son obligatorios', life: 3000 })
-    }else{
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "La URL de la imagen no es válida",
+      life: 3000,
+    });
+  } else {
+    if (producto.value.precio <= 0 || producto.value.cantidad <= 0) {
+      toast.add({
+        severity: "error",
+        summary: "Error",
+        detail: "El precio o la cantidad no pueden ser menores o iguales a 0",
+        life: 3000,
+      });
+    } else if (
+      producto.value.nombre === "" ||
+      producto.value.descripcion === "" ||
+      producto.value.tipoArticulo === "" ||
+      producto.value.categoria === 0 ||
+      producto.value.modeloVehiculo === 0
+    ) {
+      toast.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Todos los campos son obligatorios",
+        life: 3000,
+      });
+    } else {
       newProduct();
     }
   }
@@ -203,7 +227,8 @@ const imageComputed = computed(() => producto.value.imagen);
               v-model="producto.descripcion"
               id="descripcion"
               class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
-               rows="5" cols="30"
+              rows="5"
+              cols="30"
             />
           </div>
           <div class="flex space-x-4">
@@ -216,7 +241,8 @@ const imageComputed = computed(() => producto.value.imagen);
                 inputId="integeronly"
                 suffix="COP"
                 id="price"
-                :min="1000" :max="2000000"
+                :min="1000"
+                :max="2000000"
                 class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
               />
             </div>
@@ -251,8 +277,8 @@ const imageComputed = computed(() => producto.value.imagen);
             />
           </div>
           <div v-if="loading">
-          <Skeleton width="10rem" height="4rem"></Skeleton>
-        </div>
+            <Skeleton width="10rem" height="4rem"></Skeleton>
+          </div>
           <div class="flex space-x-4" v-else>
             <div class="w-1/2">
               <label
@@ -312,7 +338,6 @@ const imageComputed = computed(() => producto.value.imagen);
             >
               Agregar
             </button>
-
           </div>
         </form>
       </div>

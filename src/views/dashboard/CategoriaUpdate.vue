@@ -10,20 +10,21 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 import { useRoute } from "vue-router";
 const route = useRoute();
-
-import Skeleton from "primevue/skeleton";
+import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
+const toast = useToast();
 
 let categoriaId = ref(route.params.id);
 let decodedID = computed(() => atob(categoriaId.value).split(":")[1]);
 
 const GET_CATEGORY_BY_ID_QUERY = gql`
   query getProductById($id: ID!) {
-  productCategory(id: $id) {
-    id
-    name
-    discount
+    productCategory(id: $id) {
+      id
+      name
+      discount
+    }
   }
-}
 `;
 
 let categoria = ref({
@@ -60,15 +61,18 @@ watch(
 );
 
 const UPDATE_CATEGORY_MUTATION = gql`
-  mutation updateCategoriaMutation($id: ID!, $descuento: Int, $nombre: String!) {
-  updateProductCategory(id: $id, discount: $descuento, name: $nombre) {
-    productCategory {
-      name
+  mutation updateCategoriaMutation(
+    $id: ID!
+    $descuento: Int
+    $nombre: String!
+  ) {
+    updateProductCategory(id: $id, discount: $descuento, name: $nombre) {
+      productCategory {
+        name
+      }
     }
   }
-}
 `;
-
 
 const { mutate } = useMutation(UPDATE_CATEGORY_MUTATION);
 const updateCategory = async () => {
@@ -84,7 +88,18 @@ const updateCategory = async () => {
   }
 };
 
-
+const showToast = () => {
+  if (categoria.value.nombre === "" || categoria.value.nombre.trim() === "" || categoria.value.nombre.length < 3) {
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Ingresa un nombre valido para la categoria",
+      life: 3000,
+    });
+  } else {
+    updateCategory();
+  }
+};
 </script>
 
 <template>
@@ -94,7 +109,7 @@ const updateCategory = async () => {
       <DashboardAside></DashboardAside>
       <div class="col-span-2 p-6 bg-white rounded-lg shadow-lg relative">
         <h1 class="text-2xl font-semibold mb-6">Actualizar categoria</h1>
-        <form @submit.prevent="updateCategory()">
+        <form @submit.prevent>
           <div class="flex justify-stretch gap-4">
             <div class="w-1/2">
               <div class="flex flex-col gap-2">
@@ -126,22 +141,22 @@ const updateCategory = async () => {
             </div>
           </div>
           <div class="flex justify-end mt-4">
-
-
-
-
+            <Toast />
             <button
               type="submit"
+               @click="showToast()"
               class="border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Actualizar
             </button>
             <RouterLink
-                    :to="{
-                      name: 'listaCategorias',
-                    }"
-                    ><button class="mx-1 hover:bg-red-700 bg-red-600  text-white">Volver</button></RouterLink
-                  >
+              :to="{
+                name: 'listaCategorias',
+              }"
+              ><button class="mx-1 hover:bg-red-700 bg-red-600 text-white">
+                Volver
+              </button></RouterLink
+            >
           </div>
         </form>
       </div>

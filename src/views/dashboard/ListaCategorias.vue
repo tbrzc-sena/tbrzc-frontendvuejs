@@ -8,6 +8,9 @@ import { RouterLink } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
 import { useMutation } from "@vue/apollo-composable";
 let categoriaLst = ref();
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+import Toast from "primevue/toast";
 
 const CATEGORIAS_QUERY = gql`
   query {
@@ -57,6 +60,15 @@ const deleteCategoria = async (idf) => {
   }
 };
 
+const showToast = (idf) => {
+  toast.add({
+    severity: "success",
+    summary: "Categoria eliminada",
+    detail: "La categoria ha sido eliminada con exito",
+    life: 2000,
+  });
+  deleteCategoria(idf);
+};
 </script>
 <template>
   <div class="min-h-screen">
@@ -122,9 +134,10 @@ const deleteCategoria = async (idf) => {
                   >
                 </td>
                 <td class="align-middle">
+                  <Toast />
                   <button
                     class="hover:bg-red-700 bg-red-600 text-white"
-                    @click="deleteCategoria(categoria.id)"
+                    @click="showToast(categoria.id)"
                   >
                     Eliminar
                   </button>
