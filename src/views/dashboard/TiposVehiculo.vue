@@ -4,7 +4,7 @@ import DashboardAside from "./DashboardAside.vue";
 
 import gql from "graphql-tag";
 import { useMutation } from "@vue/apollo-composable";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useToast } from "primevue/usetoast";
 import { useQuery } from "@vue/apollo-composable";
 const toast = useToast();
@@ -33,16 +33,17 @@ const DELETE_MUTATION = gql`
   }
 `;
 
-const { result, loading, error, onResult } = useQuery(TIPO_VEHICULO_QUERY);
+const { result, loading, error, onResult,refetch } = useQuery(TIPO_VEHICULO_QUERY);
 
 onResult((queryResult) => {
-  tipoVehiculoLst.value = queryResult.data;
-  tipoVehiculoLst.value = tipoVehiculoLst.value.carTypes.edges.map(
+  tipoVehiculoLst.value =  queryResult.data.carTypes.edges.map(
     (tipoVehiculo) => tipoVehiculo.node
   );
 });
 
-
+onMounted(() => {
+  refetch();
+});
 
 const { mutate: data } = useMutation(DELETE_MUTATION);
 
@@ -76,9 +77,20 @@ const deleteTipoVehiculo = async (idf) => {
           class="col-span-3 m-5 row-span-3 shadow overflow-hidden rounded border-b border-gray-200 bg-white"
         >
         <div class="flex justify-end p-4">
-            <button class="hover:bg-blue-700 bg-blue-600 text-white px-4 py-2 rounded">Agregar</button>
+
+            <RouterLink
+                      :to="{
+                        name: 'newTipoVehiculo'
+                      }"
+                      ><button
+              class="hover:bg-blue-700 bg-blue-600 text-white px-4 py-2 rounded"
+            >
+              Agregar
+            </button></RouterLink
+                    >
           </div>
-          <table class="">
+          <div v-if="loading">loading...</div>
+          <table class="" v-else>
             <thead class="">
               <tr>
                 <th

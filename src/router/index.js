@@ -23,7 +23,9 @@ import TipoVehiculoUpdate from "../views/dashboard/TipoVehiculoUpdate.vue";
 import ModeloUpdate from "../views/dashboard/ModeloUpdate.vue";
 import MarcaVehiculo from "../views/dashboard/MarcaVehiculo.vue";
 import SolicitudPersonalizacion from "../views/dashboard/SolicitudPersonalizacion.vue";
-
+import NewMarcaVehiculo from "../views/dashboard/NewMarcaVehiculo.vue";
+import NewTipoVehiculo from "../views/dashboard/NewTipoVehiculo.vue";
+import MarcaVehiculoUpdate from "../views/dashboard/MarcaVehiculoUpdate.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -188,6 +190,15 @@ const router = createRouter({
         requireAuth: true,
       },
     },
+
+    {
+      path: "/auth/marca/:id/edit",
+      name: "marcaloUpdate",
+      component: MarcaVehiculoUpdate,
+      meta: {
+        requireAuth: true,
+      },
+    },
     {
       path: "/auth/modelovehiculo/:id/edit",
       name: "modeloVehiculoUpdate",
@@ -210,6 +221,23 @@ const router = createRouter({
       path: "/auth/personalizaciones",
       name: "personalizaciones",
       component: SolicitudPersonalizacion,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/marcaVehiculo/new",
+      name: "newMarcaVehiculo",
+      component: NewMarcaVehiculo,
+      meta: {
+        requireAuth: true,
+      },
+    }
+    ,
+    {
+      path: "/auth/tipoVehiculo/new",
+      name: "newTipoVehiculo",
+      component: NewTipoVehiculo,
       meta: {
         requireAuth: true,
       },

@@ -100,13 +100,18 @@ const newModeloVehiculo = async () => {
 };
 
 const showToast = () => {
-  toast.add({
-    severity: "success",
-    summary: "Success Message",
-    detail: "Modelo vehiculo agregado",
-    life: 3000,
-  });
-  newModeloVehiculo();
+  if (modeloVehiculo.value.nombre === "" || modeloVehiculo.value.nombre.trim() === "" || modeloVehiculo.value.nombre.length < 3) {
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Ingresa un nombre valido para la categoria",
+      life: 3000,
+    });
+  } else {
+    newModeloVehiculo();
+  }
+
+
 };
 </script>
 

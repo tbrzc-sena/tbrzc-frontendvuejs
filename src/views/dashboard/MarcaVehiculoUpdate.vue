@@ -15,61 +15,57 @@ import { useToast } from "primevue/usetoast";
 const toast = useToast();
 import Skeleton from "primevue/skeleton";
 
-let tipoVehiculoId = ref(route.params.id);
-let decodedID = computed(() => atob(tipoVehiculoId.value).split(":")[1]);
+let marcaId = ref(route.params.id);
+let decodedID = computed(() => atob(marcaId.value).split(":")[1]);
 
-let tipoVehiculo = ref({
+let marcaVehiculo = ref({
   id: "",
   nombre: "",
 });
-
-const UPDATE_TIPO_VEHICULO_MUTATION = gql`
-  mutation updateTipoVehiculoMutation($id: ID!, $nombre: String!) {
-    updateCarType(id: $id, name: $nombre) {
-      carType {
+const UPDATE_MARCA_MUTATION = gql`
+  mutation updateMarcaMutation($id: ID!, $nombre: String!) {
+    updateCarMake(id: $id, name: $nombre) {
+      carMake {
         name
       }
     }
   }
 `;
 
-const GET_TIPO_VEHICULO_BY_ID_QUERY = gql`
-  query getTipoVehiculoById($id: ID!) {
-    carType(id: $id) {
+const GET_MARCA_BY_ID_QUERY = gql`
+  query getMarcaById($id: ID!) {
+    carMake(id: $id) {
       id
       name
     }
   }
 `;
 
-const { mutate } = useMutation(UPDATE_TIPO_VEHICULO_MUTATION);
+const { mutate } = useMutation(UPDATE_MARCA_MUTATION);
 
-const updateTipoVehiculo = async () => {
+const updateMarcaVehiculo = async () => {
   try {
     const response = await mutate({
-      id: tipoVehiculo.value.id,
-      nombre: tipoVehiculo.value.nombre,
+      id: marcaVehiculo.value.id,
+      nombre: marcaVehiculo.value.nombre,
     });
-    router.push({ name: "listaTiposVehiculo" });
+    router.push({ name: "marcasvehiculos" });
   } catch (error) {
     console.error(error);
   }
 };
 
-const { result, loading, error } = useQuery(
-  GET_TIPO_VEHICULO_BY_ID_QUERY,
-  () => ({
-    id: decodedID.value,
-  })
-);
-const loadTipoVehiculoData = () => {
+const { result, loading, error } = useQuery(GET_MARCA_BY_ID_QUERY, () => ({
+  id: decodedID.value,
+}));
+const loadMarcaData = () => {
   watch(
     [result, loading, error],
     () => {
       if (!loading.value && !error.value && result.value) {
-        tipoVehiculo.value = {
+        marcaVehiculo.value = {
           id: decodedID.value,
-          nombre: result.value.carType.name,
+          nombre: result.value.carMake.name,
         };
       }
     },
@@ -79,16 +75,16 @@ const loadTipoVehiculoData = () => {
 watch(
   () => route.params.id,
   (newId) => {
-    tipoVehiculoId.value = newId;
-    loadTipoVehiculoData();
+    marcaId.value = newId;
+    loadMarcaData();
   },
   { immediate: true }
 );
 
 const showToast = () => {
   if (
-    tipoVehiculo.value.nombre.trim() === "" ||
-    tipoVehiculo.value.nombre.length < 4
+    marcaVehiculo.value.nombre.trim() === "" ||
+    marcaVehiculo.value.nombre.length < 5
   ) {
     toast.add({
       severity: "error",
@@ -97,7 +93,7 @@ const showToast = () => {
       life: 3000,
     });
   } else {
-    updateTipoVehiculo();
+    updateMarcaVehiculo();
   }
 };
 </script>
@@ -109,6 +105,7 @@ const showToast = () => {
       <DashboardAside></DashboardAside>
       <div class="col-span-2 p-6 bg-white rounded-lg shadow-lg relative">
         <h1 class="text-2xl font-semibold mb-6">Actualizar Tipo vehiculo</h1>
+
         <form @submit.prevent>
           <div class="flex justify-stretch gap-4">
             <div class="w-1/2">
@@ -116,7 +113,7 @@ const showToast = () => {
                 <label for="username">Nombre del tipo de vehiculo</label>
                 <InputText
                   id="username"
-                  v-model="tipoVehiculo.nombre"
+                  v-model="marcaVehiculo.nombre"
                   aria-describedby="username-help"
                   class="w-full border-gray-300 rounded-md shadow-sm"
                 />
