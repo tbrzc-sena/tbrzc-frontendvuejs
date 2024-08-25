@@ -5,9 +5,10 @@ import DashboardAside from "./DashboardAside.vue";
 import gql from "graphql-tag";
 import { useMutation } from "@vue/apollo-composable";
 import { ref } from "vue";
-
+import { useToast } from "primevue/usetoast";
 import { useQuery } from "@vue/apollo-composable";
-
+const toast = useToast();
+import Toast from "primevue/toast";
 
 
 let tipoVehiculoLst = ref();
@@ -54,7 +55,12 @@ const deleteTipoVehiculo = async (idf) => {
 
     tipoVehiculoLst.value = tipoVehiculoLst.value.filter((tipoVehiculo) => tipoVehiculo.id !== idf);
   } catch (error) {
-    console.log(error);
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "No fue posible ELIMINAR el Tipo de Vehiculo por que esta relacionado con un Modelo Vehiculo",
+      life: 4000,
+    });
   }
 };
 
@@ -120,9 +126,11 @@ const deleteTipoVehiculo = async (idf) => {
                   >
                 </td>
                 <td class="align-middle">
+                  <Toast />
                   <button
                     class="hover:bg-red-700 bg-red-500 font-bold text-white"
                     @click="deleteTipoVehiculo(tipoVehiculo.id)"
+
                   >
                     Eliminar
                   </button>

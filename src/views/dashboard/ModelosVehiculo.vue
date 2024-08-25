@@ -4,8 +4,14 @@ import DashboardAside from "./DashboardAside.vue";
 
 import gql from "graphql-tag";
 import { useMutation } from "@vue/apollo-composable";
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
 import { useQuery } from "@vue/apollo-composable";
+
+
+import Toast from "primevue/toast";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
 
 let modelosVehiculoLst = ref();
 const MODELO_VEHICULO_QUERY = gql`
@@ -36,16 +42,47 @@ const DELETE_MUTATION = gql`
   }
 `;
 
-const { result, loading, error, onResult } = useQuery(MODELO_VEHICULO_QUERY);
+const { result, loading, error, onResult,refetch } = useQuery(MODELO_VEHICULO_QUERY);
 
 onResult((queryResult) => {
-  modelosVehiculoLst.value = queryResult.data;
-  modelosVehiculoLst.value = modelosVehiculoLst.value.carModels.edges.map(
+  modelosVehiculoLst.value =  queryResult.data.carModels.edges.map(
     (tipoVehiculo) => tipoVehiculo.node
   );
 });
+onMounted(() => {
+  refetch();
+});
 
-const deleteModeloVehiculo = async (idf) => {};
+const { mutate: data } = useMutation(DELETE_MUTATION);
+const deleteModeloVehiculo = async (idf) => {
+  let decodedID = atob(idf).split(":")[1]
+  try {
+    const response = await data({
+      id: decodedID,
+    });
+
+    modelosVehiculoLst.value = modelosVehiculoLst.value.filter((modelo) => modelo.id !== idf);
+  } catch (error) {
+    toast.add({
+      severity: "error",
+      summary: "Error al eliminar",
+      detail: "No se pudo eliminar el Modelo Vehiculo",
+      life: 2000,
+    });
+  }
+};
+
+
+const showToast = (idf) => {
+  toast.add({
+    severity: "success",
+    summary: "Modelo Vehiculo eliminado",
+    detail: "El Modelo Vehiculo ha sido eliminado con exito",
+    life: 2000,
+  })
+  deleteModeloVehiculo(idf);
+};
+
 </script>
 <template>
   <div class="min-h-screen">
@@ -56,8 +93,8 @@ const deleteModeloVehiculo = async (idf) => {};
         <div
           class="col-span-3 m-5 row-span-3 shadow overflow-hidden rounded border-b border-gray-200 bg-white"
         >
-
-          <table class="">
+        <div v-if="loading">Loading...</div>
+          <table class="" v-else>
             <thead class="">
               <tr>
                 <th
@@ -139,9 +176,10 @@ const deleteModeloVehiculo = async (idf) => {};
                   >
                 </td>
                 <td class="align-middle">
+                  <Toast />
                   <button
                     class="hover:bg-red-700 bg-red-500 font-bold text-white"
-                    @click="deleteModeloVehiculo(modeloVehiculo.id)"
+                    @click="showToast(modeloVehiculo.id)"
                   >
                     Eliminar
                   </button>

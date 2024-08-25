@@ -2,7 +2,7 @@
 import DashboardHeader from "./DashboardHeader.vue";
 import DashboardAside from "./DashboardAside.vue";
 
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import gql from "graphql-tag";
 import { RouterLink } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
@@ -34,29 +34,38 @@ const DELETE_MUTATION = gql`
   }
 `;
 
-const { result, loading, error, onResult } = useQuery(CATEGORIAS_QUERY);
+const { result, loading, error, onResult, refetch } =
+  useQuery(CATEGORIAS_QUERY);
 
 onResult((queryResult) => {
-  categoriaLst.value = queryResult.data;
-  categoriaLst.value = categoriaLst.value.productCategories.edges.map(
+  categoriaLst.value = queryResult.data.productCategories.edges.map(
     (categoria) => categoria.node
   );
 });
 
-
+onMounted(() => {
+  refetch();
+});
 
 const { mutate: data } = useMutation(DELETE_MUTATION);
 
 const deleteCategoria = async (idf) => {
-  let decodedID = atob(idf).split(":")[1]
+  let decodedID = atob(idf).split(":")[1];
   try {
     const response = await data({
       id: decodedID,
     });
 
-    categoriaLst.value = categoriaLst.value.filter((product) => product.id !== idf);
+    categoriaLst.value = categoriaLst.value.filter(
+      (product) => product.id !== idf
+    );
   } catch (error) {
-    console.log(error);
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "No se pudo eliminar la categoria",
+      life: 2000,
+    });
   }
 };
 
@@ -79,7 +88,8 @@ const showToast = (idf) => {
         <div
           class="col-span-3 m-5 row-span-3 shadow overflow-hidden rounded border-b border-gray-200 bg-white"
         >
-          <table class="">
+        <div v-if="loading">Loading...</div>
+          <table class="" v-else>
             <thead class="">
               <tr>
                 <th
@@ -126,9 +136,7 @@ const showToast = (idf) => {
                       name: 'categoriaupdate',
                       params: { id: categoria.id },
                     }"
-                    ><button
-                      class="hover:bg-green-600 bg-green-700 text-white"
-                    >
+                    ><button class="hover:bg-green-600 bg-green-700 text-white">
                       Editar
                     </button></RouterLink
                   >

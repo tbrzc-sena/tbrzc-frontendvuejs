@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DashboardHeader from "./DashboardHeader.vue";
 import DashboardAside from "./DashboardAside.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import gql from "graphql-tag";
 import { RouterLink } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
@@ -39,16 +39,6 @@ const DELETE_MUTATION = gql`
     }
   }
 `;
-
-const { result, loading, error, onResult } = useQuery(FORM_DATA);
-
-onResult((queryResult) => {
-  productsLst.value = queryResult.data;
-  productsLst.value = productsLst.value.products.edges.map((product) => product.node);
-});
-
-const { mutate: data } = useMutation(DELETE_MUTATION);
-
 const deleteProduct = async (idf) => {
   let decodedID = atob(idf).split(":")[1]
   try {
@@ -58,9 +48,29 @@ const deleteProduct = async (idf) => {
 
     productsLst.value = productsLst.value.filter((product) => product.id !== idf);
   } catch (error) {
-    console.log(error);
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "No se pudo eliminar el producto",
+      life: 2000,
+    });
   }
 };
+
+
+const { result, loading, error, refetch,onResult } = useQuery(FORM_DATA);
+
+onResult((queryResult) => {
+  productsLst.value = queryResult.data.products.edges.map((product) => product.node);
+});
+
+onMounted(() => {
+  refetch();
+});
+
+const { mutate: data } = useMutation(DELETE_MUTATION);
+
+
 const showToast = (idf) => {
   toast.add({
     severity: "success",
@@ -80,8 +90,9 @@ const showToast = (idf) => {
         <div
           class="col-span-3 m-5 row-span-3 shadow overflow-hidden rounded border-b border-gray-200 bg-white"
         >
+        <div v-if="loading">Loading...</div>
 
-          <table class="">
+          <table class="" v-else>
             <thead class="">
               <tr>
                 <th
@@ -132,6 +143,7 @@ const showToast = (idf) => {
                 ></th>
               </tr>
             </thead>
+
 
             <tbody class="bg-gray-50">
               <tr v-for="product in productsLst" :key="product.id">

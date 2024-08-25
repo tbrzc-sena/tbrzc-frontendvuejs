@@ -28,7 +28,7 @@ const newCategory = async () => {
       descuento: descuento.value,
     });
 
-    router.push({ name: "productdashboard" });
+    router.push({ name: "listaCategorias" });
   } catch (error) {
     console.log(error);
   }
@@ -64,6 +64,7 @@ const showToast = () => {
                   v-model="categoria"
                   aria-describedby="username-help"
                   class="w-full border-gray-300 rounded-md shadow-sm"
+                  :invalid="categoria === ''"
                 />
                 <small id="username-help"
                   >Procura un nombre descriptivo y unico para la categoria que

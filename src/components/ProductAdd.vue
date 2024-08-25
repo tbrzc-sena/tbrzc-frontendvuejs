@@ -215,6 +215,7 @@ const imageComputed = computed(() => producto.value.imagen);
               v-model="producto.nombre"
               id="nombre-articulo"
               class="w-2/3 border-gray-300 rounded-md shadow-sm"
+              :invalid="producto.nombre === ''"
             />
           </div>
           <div>
@@ -229,6 +230,7 @@ const imageComputed = computed(() => producto.value.imagen);
               class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
               rows="5"
               cols="30"
+              :invalid="producto.descripcion === ''"
             />
           </div>
           <div class="flex space-x-4">
@@ -274,6 +276,7 @@ const imageComputed = computed(() => producto.value.imagen);
               id="imagen-producto"
               class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
               autoResize
+              :invalid="producto.imagen === ''"
             />
           </div>
           <div v-if="loading">
