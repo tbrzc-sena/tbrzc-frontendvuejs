@@ -10,25 +10,19 @@ const router = useRouter();
 //https://apollo.vuejs.org/guide-option/queries.html
 
 const REGISTER_MUTATION = gql`
-  mutation login(
-    $email: String!
-    $password: String!
-    $firstName: String!
-    $lastName: String!
-    $phone: String!
+  mutation register($email: String!, $password: String!, $firstName: String!, $lastName: String!, $phone: String!) {
+  registerUser(
+    email: $email
+    password: $password
+    firstName: $firstName
+    lastName: $lastName
+    phone: $phone
   ) {
-    createUser(
-      email: $email
-      password: $password
-      firstName: $firstName
-      lastName: $lastName
-      phone: $phone
-    ) {
-      user {
-        email
-      }
+    user {
+      __typename
     }
   }
+}
 `;
 
 let email = ref("");

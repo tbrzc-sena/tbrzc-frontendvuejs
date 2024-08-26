@@ -9,7 +9,8 @@ import {
 } from "@apollo/client/core";
 import { createPinia } from 'pinia'
 const pinia = createPinia()
-
+import { setContext } from '@apollo/client/link/context';
+import { useAuthStore } from './store/Auth';
 
 import { DefaultApolloClient } from '@vue/apollo-composable'
 const httpLink = new createHttpLink({
@@ -21,10 +22,25 @@ import 'primeicons/primeicons.css';  // Import PrimeIcons
 
 const cache = new InMemoryCache()
 
+const authLink = setContext((_, { headers }) => {
+  const authStore = useAuthStore();
+  const token = authStore.getJwt;
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+
+
 const apolloClient = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache,
 })
+
+
 
 import PrimeVue from "primevue/config";
 import Aura from "@primevue/themes/aura";

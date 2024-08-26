@@ -65,7 +65,7 @@ const router = createRouter({
       name: "addproductoview",
       component: AddView,
       meta: {
-        requireAuth: false,
+        requireAuth: true,
       },
     },
     {
@@ -73,7 +73,7 @@ const router = createRouter({
       name: "updateproductoview",
       component: UpdateView,
       meta: {
-        requireAuth: false,
+        requireAuth: true,
       },
     },
     {
@@ -89,6 +89,7 @@ const router = createRouter({
       name: "loginview",
       component: LoginView,
       meta: {
+        isAuthenticated: true,
         requireAuth: false,
       },
     },
@@ -97,6 +98,7 @@ const router = createRouter({
       name: "registerview",
       component: RegisterView,
       meta: {
+        isAuthenticated: true,
         requireAuth: false,
       },
     },
@@ -105,6 +107,7 @@ const router = createRouter({
       name: "forgotpassword",
       component: ForgotPassword,
       meta: {
+        isAuthenticated: true,
         requireAuth: false,
       },
     },
@@ -113,6 +116,7 @@ const router = createRouter({
       name: "productdashboard",
       component: ProductDashboard,
       meta: {
+        requiresAdmin: true,
         requireAuth: true,
       },
     },
@@ -129,7 +133,7 @@ const router = createRouter({
       name: "carritodecompras",
       component: CompraView,
       meta: {
-        requireAuth: false,
+        requireAuth: true,
       },
     },
     {
@@ -180,8 +184,7 @@ const router = createRouter({
       meta: {
         requireAuth: true,
       },
-    }
-    ,
+    },
     {
       path: "/auth/tipovehiculo/:id/edit",
       name: "tipoVehiculoUpdate",
@@ -206,8 +209,7 @@ const router = createRouter({
       meta: {
         requireAuth: true,
       },
-    }
-    ,
+    },
     {
       path: "/auth/marcasvehiculos",
       name: "marcasvehiculos",
@@ -215,8 +217,7 @@ const router = createRouter({
       meta: {
         requireAuth: true,
       },
-    }
-    ,
+    },
     {
       path: "/auth/personalizaciones",
       name: "personalizaciones",
@@ -232,8 +233,7 @@ const router = createRouter({
       meta: {
         requireAuth: true,
       },
-    }
-    ,
+    },
     {
       path: "/auth/tipoVehiculo/new",
       name: "newTipoVehiculo",
@@ -241,16 +241,22 @@ const router = createRouter({
       meta: {
         requireAuth: true,
       },
-    }
+    },
   ],
 });
 router.beforeEach((to, from, next) => {
   const store = useAuthStore();
   const auth = store.getJwt != "";
   const needAuth = to.meta.requireAuth;
+
   if (needAuth && !auth) {
     next("/login");
+  } else if(to.meta.isAuthenticated && auth) {
+    next("/");
+
+  }else{
+    next();
   }
-  next();
+
 });
 export default router;

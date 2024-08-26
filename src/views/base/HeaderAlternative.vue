@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { useAuthStore } from "../../store/Auth";
+const store = useAuthStore();
+const router = useRouter();
 
+
+const logout = () => {
+  store.clearJwt();
+  router.push({ name: 'loginview' });
+};
 </script>
 <template>
     <header
@@ -53,7 +61,13 @@ import { RouterLink } from 'vue-router'
                   >Personalización</RouterLink
                 >
               </li>
-              <li class="mx-1">
+              <li class="mx-1" v-if="store.isAuthenticated" @click="logout()" >
+                <button>
+                  Cerrar sesión
+                </button>
+
+              </li>
+              <li class="mx-1" v-else>
                 <RouterLink
                   :to="{ name: 'loginview' }"
                   class="  px-4 py-2 rounded"

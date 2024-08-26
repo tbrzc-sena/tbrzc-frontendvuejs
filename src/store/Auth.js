@@ -4,16 +4,18 @@ export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
       jwt: localStorage.getItem("jwt") || "",
+      userRole: "USER",
       error: "",
     };
   },
   getters: {
     getJwt: (state) => state.jwt,
+    isAuthenticated: (state) => !!state.jwt,
   },
   actions: {
     setJwt(token) {
-      this.jwt = token;
-      localStorage.setItem("jwt", token);  // Almacenar el JWT en localStorage
+      this.jwt = "JWT "+token;
+      localStorage.setItem("jwt", "JWT "+token);  // Almacenar el JWT en localStorage
     },
     clearJwt() {
       this.jwt = "";
@@ -21,6 +23,10 @@ export const useAuthStore = defineStore("auth", {
     },
     setError(error) {
       this.error = error;
+    }
+    ,
+    setUserRole(role) {
+      this.userRole = role;
     }
   }
 });

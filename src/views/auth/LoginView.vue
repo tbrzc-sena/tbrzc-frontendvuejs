@@ -7,6 +7,7 @@ import { useAuthStore } from "../../store/Auth";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Toast from "primevue/toast";
+import { useQuery } from "@vue/apollo-composable";
 
 const store = useAuthStore();
 let email = ref("");
@@ -17,37 +18,25 @@ const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
     tokenAuth(email: $email, password: $password) {
       token
+      payload
     }
   }
 `;
-import { useToast } from "primevue/usetoast";
-/*
-const toast = useToast();
-const mostrarToast = () => {
-  toast.add({
-    severity: "success",
-    summary: "Mensaje de éxito",
-    detail: "Contenido del mensaje",
-    life: 3000,
-  });
-};
-*/
-const { mutate: data } = useMutation(LOGIN_MUTATION);
-
-const login = async () => {
-  try {
-    const response = "tokenfalsohehe";
-    if (response != "") {
-      store.setJwt(response)
-      router.push({ name: "productdashboard" })
+const LOGGED_IN_QUERY = gql`
+  query {
+    loggedIn {
+      groups {
+        edges {
+          node {
+            name
+          }
+        }
+      }
     }
-  } catch (error) {
-    store.error = error;
   }
-};
+`;
 
-/*
-
+const { mutate: data } = useMutation(LOGIN_MUTATION);
 
 const login = async () => {
   try {
@@ -55,15 +44,15 @@ const login = async () => {
       email: email.value,
       password: password.value,
     });
-    if (response.data.tokenAuth.token != "") {
+    if (response.data.tokenAuth.token) {
       store.setJwt(response.data.tokenAuth.token);
-      router.push({ name: "productdashboard" });
+      //validar el rol del usuario y redirigir a la vista correspondiente
+
     }
   } catch (error) {
     store.error = error;
   }
 };
-*/
 </script>
 <template>
   <HeaderAlternative></HeaderAlternative>
