@@ -253,7 +253,6 @@ router.beforeEach((to, from, next) => {
     next("/login");
   } else if(to.meta.isAuthenticated && auth) {
     next("/");
-
   }else{
     next();
   }

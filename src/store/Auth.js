@@ -11,6 +11,7 @@ export const useAuthStore = defineStore("auth", {
   getters: {
     getJwt: (state) => state.jwt,
     isAuthenticated: (state) => !!state.jwt,
+    getUserRole:(state) => state.userRole
   },
   actions: {
     setJwt(token) {

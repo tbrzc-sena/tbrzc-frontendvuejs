@@ -71,8 +71,7 @@ const register = async () => {
           <div class="">
             <div class="pt-4">
               <h2 class="py-1 text-center">Registrarse</h2>
-              <p class="py-1 text-center">
-                ¿Ya tienes una cuenta?
+              <p class="py-1 text-center">¿Ya tienes una cuenta?
                 <RouterLink :to="{ name: 'loginview' }" class="mx-2"
                   >Inicia sesión aquí</RouterLink
                 >
@@ -86,8 +85,19 @@ const register = async () => {
                   name="name"
                   id="name"
                   class="mt-2 p-2"
-                  placeholder="Introduzca su nombre"
+                  placeholder="ej: Daniel Santiago"
                   v-model="firstName"
+                />
+              </div>
+              <div class="mb-3 flex my-4 flex-col">
+                <label for="lastname" class="">Apellidos</label>
+                <input
+                  type="text"
+                  name="lastname"
+                  id="lastname"
+                  placeholder="ej: Lara Cala"
+                  class="block w-full rounded-md border"
+                  v-model="lastName"
                 />
               </div>
 
@@ -98,7 +108,7 @@ const register = async () => {
                   type="email"
                   name="email"
                   class="mt-2 p-2"
-                  placeholder="Dirección de correo electrónico"
+                  placeholder="ej: exampleEmail@gmail.com"
                   v-model="email"
                 />
               </div>
@@ -109,32 +119,15 @@ const register = async () => {
                   <input
                     id="password-signup"
                     class="flex-1 p-2 pr-10"
-                    placeholder="Ingresa tu contraseña"
+                    placeholder="Ingresa una contraseña segura"
                     type="password"
                     v-model="password"
                   />
                 </div>
               </div>
-              <div class="mb-3 flex">
-                <input
-                  type="text"
-                  placeholder="Apellidos"
-                  class="block w-full rounded-md border"
-                  v-model="lastName"
-                />
-              </div>
-              <div class="mb-3 flex">
-                <input
-                  type="text"
-                  placeholder="Telefono"
-                  class="block w-full rounded-md border"
-                  v-model="phone"
-                />
-              </div>
-
               <div class="my-4 flex flex-col">
                 <label for="password_confirmation" class=""
-                  >Confirme su contraseña</label
+                  ></label
                 >
                 <div class="mt-2 flex items-center">
                   <input
@@ -146,7 +139,19 @@ const register = async () => {
                   />
                 </div>
               </div>
-
+              
+              <div class="mb-3 flex my-4 flex-col">
+                <label for="phone" class="">Telefono</label>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  placeholder="Telefono"
+                  class="block w-full rounded-md border"
+                  v-model="phone"
+                />
+              </div>
+              <!-- 
               <div class="flex items-center">
                 <input
                   type="checkbox"
@@ -159,7 +164,7 @@ const register = async () => {
                   <a href="#" class="">política de privacidad</a>
                 </label>
               </div>
-
+-->
               <div class="my-4 flex items-center justify-end space-x-4">
                 <button type="submit"
                   class="rounded-lg px-8 py-2 uppercase transition duration-150 hover:shadow-xl"
