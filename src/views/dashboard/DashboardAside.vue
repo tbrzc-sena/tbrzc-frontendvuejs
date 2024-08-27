@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { useAuthStore } from "../../store/Auth";
+import { useAuthStore } from "../../store/Auth.js";
 const store = useAuthStore()
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const logout =()=>{
   store.clearJwt()
+  store.clearUserRole()
   router.push({ name: 'loginview' });
 }
 </script>
@@ -18,10 +19,10 @@ const logout =()=>{
           </div>
 
       </li>
-      <li class="px-4 my-2">
+      <li class="px-4 my-2" v-if="store.getUserRole == 'Admin'">
         <span class="font-medium uppercase text-gray-400">Productos</span>
       </li>
-      <li class="px-4 my-2">
+      <li class="px-4 my-2" v-if="store.getUserRole == 'Admin'">
         <RouterLink :to="{ name: 'productdashboard' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-blue-500">
             <i class="fa-solid fa-boxes-packing text-2xl"></i>
@@ -30,7 +31,7 @@ const logout =()=>{
         </RouterLink>
       </li>
 
-      <li class="px-4 my-2">
+      <li class="px-4 my-2" v-if="store.getUserRole == 'Admin'">
         <RouterLink :to="{ name: 'categorias' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-blue-500">
             <i class="fa-solid fa-list text-2xl"></i>
@@ -38,7 +39,7 @@ const logout =()=>{
           <span class="ml-3 text-lg">Categorias</span>
         </RouterLink>
       </li>
-      <li class="px-4 my-2">
+      <li class="px-4 my-2" v-if="store.getUserRole == 'Admin'">
         <RouterLink :to="{ name: 'modelosvehiculo' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-blue-500">
             <i class="fa-solid fa-car text-2xl"></i>
@@ -47,7 +48,7 @@ const logout =()=>{
         </RouterLink>
       </li>
 
-      <li class="px-4 my-2">
+      <li class="px-4 my-2" v-if="store.getUserRole == 'Admin'">
         <RouterLink :to="{ name: 'personalizaciones' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-blue-500">
             <i class="fa-solid fa-highlighter text-2xl"></i>
@@ -55,7 +56,7 @@ const logout =()=>{
           <span class="ml-3 text-lg">Personalizaciónes</span>
         </RouterLink>
       </li>
-      <li class="px-4 my-2">
+      <li class="px-4 my-2" v-if="store.getUserRole == 'Admin'">
         <RouterLink :to="{ name: 'addproductoview' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-green-400">
             <i class="fa-solid fa-plus text-2xl"></i>
@@ -65,6 +66,15 @@ const logout =()=>{
       </li>
       <li class="px-4 my-2">
         <span class="my-4 flex text-sm font-medium uppercase text-gray-400">Cuenta</span>
+        <p>{{ store.getPayload }}</p>
+      </li>
+      <li class="px-4 my-2" v-if="store.getUserRole == 'Client'">
+        <RouterLink :to="{ name: 'homeview' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
+          <span class="text-blue-500">
+            <i class="fa-solid fa-user text-2xl"></i>
+          </span>
+          <span class="ml-3 text-lg">Editar perfil</span>
+        </RouterLink>
       </li>
       <li class="px-4 my-2">
         <button @click="logout()" class="bg-transparent hover:bg-transparent hover:text-red-500">

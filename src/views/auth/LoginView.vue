@@ -49,10 +49,10 @@ const login = async () => {
     });
     if (response.data.tokenAuth.token) {
       store.setJwt(response.data.tokenAuth.token);
+      store.setPayload(response.data.tokenAuth.payload.email);
       store.setUserRole(result.value.loggedIn.groups.edges[0].node.name)
       //redirigir a la ruta correcta
-
-
+      router.push({ name: 'productdashboard' });
     }
   } catch (error) {
     store.error = error;

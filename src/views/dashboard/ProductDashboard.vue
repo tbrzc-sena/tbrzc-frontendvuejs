@@ -10,6 +10,10 @@ let productsLst = ref();
 import Toast from "primevue/toast";
 import { useToast } from "primevue/usetoast";
 const toast = useToast();
+
+import { useAuthStore } from "../../store/Auth.js";
+const store = useAuthStore()
+
 const FORM_DATA = gql`
   query{
   products {
@@ -92,7 +96,7 @@ const showToast = (idf) => {
         >
         <div v-if="loading">Loading...</div>
 
-          <table class="" v-else>
+          <table class="" v-if="store.getUserRole == 'Admin'">
             <thead class="">
               <tr>
                 <th

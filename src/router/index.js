@@ -26,10 +26,18 @@ import SolicitudPersonalizacion from "../views/dashboard/SolicitudPersonalizacio
 import NewMarcaVehiculo from "../views/dashboard/NewMarcaVehiculo.vue";
 import NewTipoVehiculo from "../views/dashboard/NewTipoVehiculo.vue";
 import MarcaVehiculoUpdate from "../views/dashboard/MarcaVehiculoUpdate.vue";
-
+import Unauthorized from "../views/auth/Unauthorized.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: "/unauthorized",
+      name: "unauthorized",
+      component: Unauthorized,
+      meta: {
+        requireAuth: true,
+      },
+    },
     {
       path: "/",
       name: "homeview",
@@ -66,6 +74,7 @@ const router = createRouter({
       component: AddView,
       meta: {
         requireAuth: true,
+        roles: ["Admin"],
       },
     },
     {
@@ -74,6 +83,7 @@ const router = createRouter({
       component: UpdateView,
       meta: {
         requireAuth: true,
+        roles: ["Admin"],
       },
     },
     {
@@ -116,7 +126,7 @@ const router = createRouter({
       name: "productdashboard",
       component: ProductDashboard,
       meta: {
-        requiresAdmin: true,
+        roles: ["Admin", "Client"],
         requireAuth: true,
       },
     },
@@ -141,6 +151,7 @@ const router = createRouter({
       name: "categorias",
       component: CategoriaDashboard,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -149,6 +160,7 @@ const router = createRouter({
       name: "modelosvehiculo",
       component: ModeloVehiculo,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -157,6 +169,7 @@ const router = createRouter({
       name: "listaCategorias",
       component: ListaCategorias,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -165,6 +178,7 @@ const router = createRouter({
       name: "listaTiposVehiculo",
       component: TiposVehiculo,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -174,6 +188,7 @@ const router = createRouter({
       name: "listaModelosVehiculo",
       component: ModelosVehiculo,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -182,6 +197,7 @@ const router = createRouter({
       name: "categoriaupdate",
       component: CategoriaUpdate,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -190,6 +206,7 @@ const router = createRouter({
       name: "tipoVehiculoUpdate",
       component: TipoVehiculoUpdate,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -199,6 +216,7 @@ const router = createRouter({
       name: "marcaloUpdate",
       component: MarcaVehiculoUpdate,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -207,6 +225,7 @@ const router = createRouter({
       name: "modeloVehiculoUpdate",
       component: ModeloUpdate,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -215,6 +234,7 @@ const router = createRouter({
       name: "marcasvehiculos",
       component: MarcaVehiculo,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -223,6 +243,7 @@ const router = createRouter({
       name: "personalizaciones",
       component: SolicitudPersonalizacion,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -231,6 +252,7 @@ const router = createRouter({
       name: "newMarcaVehiculo",
       component: NewMarcaVehiculo,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -239,6 +261,7 @@ const router = createRouter({
       name: "newTipoVehiculo",
       component: NewTipoVehiculo,
       meta: {
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -248,12 +271,18 @@ router.beforeEach((to, from, next) => {
   const store = useAuthStore();
   const auth = store.getJwt != "";
   const needAuth = to.meta.requireAuth;
+  const userRole = store.getUserRole;
+  console.log("userRole", userRole);
+  const roles = to.meta.roles;
 
   if (needAuth && !auth) {
     next("/login");
   } else if(to.meta.isAuthenticated && auth) {
     next("/");
-  }else{
+  }else if (needAuth && auth && roles && !roles.includes(userRole)){
+    next("/unauthorized");
+  }
+  else{
     next();
   }
 
