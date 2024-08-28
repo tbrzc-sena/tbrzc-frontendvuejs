@@ -60,7 +60,9 @@ const { result, loading, error } = useQuery(
   GET_TIPO_VEHICULO_BY_ID_QUERY,
   () => ({
     id: decodedID.value,
-  })
+  }),{
+  enabled: computed(() => !!decodedID.value)
+}
 );
 const loadTipoVehiculoData = () => {
   watch(
@@ -80,7 +82,9 @@ watch(
   () => route.params.id,
   (newId) => {
     tipoVehiculoId.value = newId;
+    if (decodedID.value) {
     loadTipoVehiculoData();
+    }
   },
   { immediate: true }
 );

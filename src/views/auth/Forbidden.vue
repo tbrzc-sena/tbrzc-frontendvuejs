@@ -7,8 +7,8 @@ const goBack = () => {
 };</script>
 <template>
   <div>
-    <h1>401 Unauthorized</h1>
-    <p>el acceso al recurso requiere autenticación y el usuario no se ha autenticado correctamente.</p>
+    <h1>403 Forbidden</h1>
+    <p> el usuario está autenticado pero no tiene permiso para acceder a la ruta solicitada.</p>
     <button @click="goBack()">click aqui para volver</button>
   </div>
 

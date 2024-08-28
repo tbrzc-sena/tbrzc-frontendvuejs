@@ -229,7 +229,7 @@ const isValidURL = (string) => {
 const imageComputed = computed(() => producto.value.imagen);
 
 const showToast = () => {
-  if (!isValidURL(producto.value.imagen)) {
+  if (!isValidURL(producto.value.imagen) || producto.value.imagen.length > 255) {
     toast.add({ severity: 'error', summary: 'Error', detail: 'La URL de la imagen no es válida', life: 3000 });
   }else{
     if(producto.value.precio <= 0 || producto.value.cantidad <= 0){

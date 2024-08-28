@@ -7,6 +7,7 @@ const router = useRouter();
 
 const logout = () => {
   store.clearJwt();
+  store.clearUserRole();
   router.push({ name: 'loginview' });
 };
 </script>

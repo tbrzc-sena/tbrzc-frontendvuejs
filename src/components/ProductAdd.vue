@@ -140,7 +140,6 @@ const newProduct = async () => {
       modeloVehiculo: atob(producto.value.modeloVehiculo.id).split(":")[1],
     });
     router.push({ name: "productdashboard" });
-
   } catch (error) {
     toast.add({
       severity: "error",
@@ -152,7 +151,7 @@ const newProduct = async () => {
 };
 
 const showToast = () => {
-  if (!isValidURL(producto.value.imagen)) {
+  if (!isValidURL(producto.value.imagen) || producto.value.imagen.length > 255) {
     toast.add({
       severity: "error",
       summary: "Error",

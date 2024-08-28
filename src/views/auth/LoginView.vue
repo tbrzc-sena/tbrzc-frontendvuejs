@@ -36,10 +36,7 @@ const LOGGED_IN_QUERY = gql`
 `;
 
 const { mutate: data } = useMutation(LOGIN_MUTATION);
-const { result, error,loading } = useQuery(LOGGED_IN_QUERY);
-
-
-
+const { result, error, loading, refetch } = useQuery(LOGGED_IN_QUERY);
 
 const login = async () => {
   try {
@@ -49,16 +46,16 @@ const login = async () => {
     });
     if (response.data.tokenAuth.token) {
       store.setJwt(response.data.tokenAuth.token);
-      store.setPayload(response.data.tokenAuth.payload.email);
-      store.setUserRole(result.value.loggedIn.groups.edges[0].node.name)
-      //redirigir a la ruta correcta
-      router.push({ name: 'productdashboard' });
+
+      await refetch();
+      if (!loading.value && !error.value && result.value) {
+        store.setUserRole(result.value.loggedIn.groups.edges[0].node.name);
+      }
     }
   } catch (error) {
     store.error = error;
   }
 };
-
 </script>
 <template>
   <HeaderAlternative></HeaderAlternative>

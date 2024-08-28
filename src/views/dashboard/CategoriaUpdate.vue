@@ -17,6 +17,8 @@ const toast = useToast();
 let categoriaId = ref(route.params.id);
 let decodedID = computed(() => atob(categoriaId.value).split(":")[1]);
 
+//let decodedID = computed(() => atob(categoriaId.value).split(":")[1]);
+
 const GET_CATEGORY_BY_ID_QUERY = gql`
   query getProductById($id: ID!) {
     productCategory(id: $id) {
@@ -35,7 +37,9 @@ let categoria = ref({
 
 const { result, loading, error } = useQuery(GET_CATEGORY_BY_ID_QUERY, () => ({
   id: decodedID.value,
-}));
+}),{
+  enabled: computed(() => !!decodedID.value)
+});
 
 const loadCategoryData = () => {
   watch(
@@ -55,7 +59,9 @@ watch(
   () => route.params.id,
   (newId) => {
     categoriaId.value = newId;
-    loadCategoryData();
+    if (decodedID.value) {
+      loadCategoryData();
+    }
   },
   { immediate: true }
 );

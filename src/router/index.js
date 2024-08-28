@@ -27,15 +27,35 @@ import NewMarcaVehiculo from "../views/dashboard/NewMarcaVehiculo.vue";
 import NewTipoVehiculo from "../views/dashboard/NewTipoVehiculo.vue";
 import MarcaVehiculoUpdate from "../views/dashboard/MarcaVehiculoUpdate.vue";
 import Unauthorized from "../views/auth/Unauthorized.vue";
+import Forbidden from "../views/auth/Forbidden.vue";
+import NotFound from "../views/auth/NotFound.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: "/forbidden",
+      name: "forbidden",
+      component: Forbidden,
+      meta: {
+        requireAuth: true,
+        roles: ["Client"],
+      },
+    },
     {
       path: "/unauthorized",
       name: "unauthorized",
       component: Unauthorized,
       meta: {
-        requireAuth: true,
+        requireAuth: false,
+        roles: ["User"],
+      },
+    },
+    {
+      path: "/notfound",
+      name: "notfound",
+      component: NotFound,
+      meta: {
+        requireAuth: false,
       },
     },
     {
@@ -101,6 +121,7 @@ const router = createRouter({
       meta: {
         isAuthenticated: true,
         requireAuth: false,
+        roles: ["User"],
       },
     },
     {
@@ -110,6 +131,7 @@ const router = createRouter({
       meta: {
         isAuthenticated: true,
         requireAuth: false,
+        roles: ["User"],
       },
     },
     {
@@ -119,6 +141,7 @@ const router = createRouter({
       meta: {
         isAuthenticated: true,
         requireAuth: false,
+        roles: ["User"],
       },
     },
     {
@@ -126,7 +149,7 @@ const router = createRouter({
       name: "productdashboard",
       component: ProductDashboard,
       meta: {
-        roles: ["Admin", "Client"],
+        roles: ["Admin"],
         requireAuth: true,
       },
     },
@@ -136,6 +159,7 @@ const router = createRouter({
       component: PersonalizacionView,
       meta: {
         requireAuth: true,
+        roles: ["Client"],
       },
     },
     {
@@ -144,6 +168,7 @@ const router = createRouter({
       component: CompraView,
       meta: {
         requireAuth: true,
+        roles: ["Client"],
       },
     },
     {

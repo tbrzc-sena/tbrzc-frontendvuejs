@@ -4,8 +4,7 @@ export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
       jwt: localStorage.getItem("jwt") || "",
-      userRole: localStorage.getItem("userRole") || "Client",
-      payload: null,
+      userRole: localStorage.getItem("userRole") || "User",
       error: "",
     };
   },
@@ -13,7 +12,6 @@ export const useAuthStore = defineStore("auth", {
     getJwt: (state) => state.jwt,
     isAuthenticated: (state) => !!state.jwt,
     getUserRole:(state) => state.userRole,
-    getPayload: (state) => state.payload
   },
   actions: {
     setJwt(token) {
@@ -28,9 +26,6 @@ export const useAuthStore = defineStore("auth", {
       this.userRole = "";
       localStorage.removeItem("userRole");
     },
-    clearPayload() {
-      this.payload = null;
-    },
     setError(error) {
       this.error = error;
     }
@@ -38,9 +33,6 @@ export const useAuthStore = defineStore("auth", {
     setUserRole(role) {
       this.userRole = role;
       localStorage.setItem("userRole", role);
-    },
-    setPayload(payload) {
-      this.payload = payload;
     }
   }
 });

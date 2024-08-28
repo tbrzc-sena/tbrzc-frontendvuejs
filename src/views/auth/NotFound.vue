@@ -7,8 +7,8 @@ const goBack = () => {
 };</script>
 <template>
   <div>
-    <h1>401 Unauthorized</h1>
-    <p>el acceso al recurso requiere autenticación y el usuario no se ha autenticado correctamente.</p>
+    <h1>404 Not Found</h1>
+    <p> El recurso al que intentas acceder no existe</p>
     <button @click="goBack()">click aqui para volver</button>
   </div>
 

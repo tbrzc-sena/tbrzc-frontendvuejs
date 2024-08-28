@@ -57,7 +57,9 @@ const updateMarcaVehiculo = async () => {
 
 const { result, loading, error } = useQuery(GET_MARCA_BY_ID_QUERY, () => ({
   id: decodedID.value,
-}));
+}),{
+  enabled: computed(() => !!decodedID.value)
+});
 const loadMarcaData = () => {
   watch(
     [result, loading, error],
@@ -76,7 +78,9 @@ watch(
   () => route.params.id,
   (newId) => {
     marcaId.value = newId;
-    loadMarcaData();
+    if (decodedID.value) {
+      loadMarcaData();
+    }
   },
   { immediate: true }
 );
