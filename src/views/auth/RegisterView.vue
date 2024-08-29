@@ -7,6 +7,10 @@ import { useMutation } from "@vue/apollo-composable";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
+import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
+const toast = useToast();
+
 //https://apollo.vuejs.org/guide-option/queries.html
 
 const REGISTER_MUTATION = gql`
@@ -27,6 +31,7 @@ const REGISTER_MUTATION = gql`
 
 let email = ref("");
 let password = ref("");
+let password_confirmation = ref("");
 let firstName = ref("");
 let lastName = ref("");
 let phone = ref("");
@@ -44,6 +49,52 @@ const register = async () => {
     router.push({ name: "loginview" });
   } catch (error) {
     console.log(error)
+  }
+};
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+const showToast = () => {
+  if ( password.value === "" || password.value.trim() === "" || password.value.length <= 8 || password.value.length > 20) {
+
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Ingresa una contraseña valida de minimo 8 caracteres, incluye al menos un dígito, una letra mayúscula, una letra minúscula, y un carácter especial (@, $, !, %, *, ?, &, #)",
+      life: 10000,
+    });
+  }else if(firstName.value === "" || firstName.value.trim() === "" || firstName.value.length < 2 && lastName.value === "" || lastName.value.trim() === "" || lastName.value.length < 2) {
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Ingresa un nombre y apellido valido",
+      life: 3000,
+    });
+
+  }else if(password.value !== password_confirmation.value) {
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Las contraseñas no coinciden",
+      life: 3000,
+    });
+
+  }else if(phone.value === "" || phone.value.trim() === "" || phone.value.length < 10) {
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Ingresa un número de telefono valido",
+      life: 3000,
+    });
+  }else if(!emailRegex.test(email.value)){
+    toast.add({
+    severity: "error",
+    summary: "Error",
+    detail: "Ingresa un correo electrónico válido",
+    life: 3000,
+  });
+  }
+  else {
+    register();
   }
 };
 </script>
@@ -77,7 +128,7 @@ const register = async () => {
                 >
               </p>
             </div>
-            <form class="text-sm" @submit.prevent="register()">
+            <form class="text-sm" @submit.prevent>
               <div class="my-4 flex flex-col">
                 <label for="name" class="">Nombres</label>
                 <input
@@ -114,7 +165,8 @@ const register = async () => {
               </div>
 
               <div class="my-4 flex flex-col">
-                <label for="password" class="">Contraseña</label>
+                <label for="password" class=""><strong> Contraseña</strong></label>
+                <p class="inline max-w-56">incluye al menos un dígito, una letra mayúscula, una letra minúscula, y un carácter especial (@, $, !, %, *, ?, &, #)</p>
                 <div class="mt-2 flex items-center">
                   <input
                     id="password-signup"
@@ -136,10 +188,11 @@ const register = async () => {
                     class="flex-1 border p-2 pr-10"
                     placeholder="Introduce tu contraseña de nuevo"
                     type="password"
+                    v-model="password_confirmation"
                   />
                 </div>
               </div>
-              
+
               <div class="mb-3 flex my-4 flex-col">
                 <label for="phone" class="">Telefono</label>
                 <input
@@ -151,7 +204,7 @@ const register = async () => {
                   v-model="phone"
                 />
               </div>
-              <!-- 
+              <!--
               <div class="flex items-center">
                 <input
                   type="checkbox"
@@ -166,7 +219,9 @@ const register = async () => {
               </div>
 -->
               <div class="my-4 flex items-center justify-end space-x-4">
+                <Toast />
                 <button type="submit"
+                @click="showToast()"
                   class="rounded-lg px-8 py-2 uppercase transition duration-150 hover:shadow-xl"
                 >
                   Registrarse

@@ -29,9 +29,24 @@ import MarcaVehiculoUpdate from "../views/dashboard/MarcaVehiculoUpdate.vue";
 import Unauthorized from "../views/auth/Unauthorized.vue";
 import Forbidden from "../views/auth/Forbidden.vue";
 import NotFound from "../views/auth/NotFound.vue";
+import MainDasboard from "../views/dashboard/client/MainDashboard.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/:pathMatch(.*)*', // Ruta comodín para capturar todas las rutas no definidas
+      name: 'NotFound',
+      component: NotFound,
+    },
+    {
+      path: "/client/dashboard",
+      name: "dashboard",
+      component: MainDasboard,
+      meta: {
+        requireAuth: true,
+        roles: ["Client"],
+      },
+    },
     {
       path: "/forbidden",
       name: "forbidden",
@@ -74,7 +89,7 @@ const router = createRouter({
       },
       children: [
         {
-          path: "/:categoria",
+          path: "/productos/:categoria",
           name: "productosview",
           component: ProductFilter,
         },
@@ -297,7 +312,6 @@ router.beforeEach((to, from, next) => {
   const auth = store.getJwt != "";
   const needAuth = to.meta.requireAuth;
   const userRole = store.getUserRole;
-  console.log("userRole", userRole);
   const roles = to.meta.roles;
 
   if (needAuth && !auth) {

@@ -50,6 +50,11 @@ const login = async () => {
       await refetch();
       if (!loading.value && !error.value && result.value) {
         store.setUserRole(result.value.loggedIn.groups.edges[0].node.name);
+        if(store.userRole === "Client") {
+          router.push({ name: "dashboard" });
+        } else {
+          router.push({ name: "productdashboard" });
+        }
       }
     }
   } catch (error) {
