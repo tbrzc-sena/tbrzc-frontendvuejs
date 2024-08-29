@@ -30,9 +30,19 @@ import Unauthorized from "../views/auth/Unauthorized.vue";
 import Forbidden from "../views/auth/Forbidden.vue";
 import NotFound from "../views/auth/NotFound.vue";
 import MainDasboard from "../views/dashboard/client/MainDashboard.vue";
+import UpdateInfo from "../views/dashboard/client/UpdateInfo.vue"
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: "/client/dashboard/updateinfo",
+      name: "updateinfo",
+      component: UpdateInfo,
+      meta: {
+        requireAuth: true,
+        roles: ["Client"],
+      },
+    },
     {
       path: '/:pathMatch(.*)*', // Ruta comodín para capturar todas las rutas no definidas
       name: 'NotFound',
