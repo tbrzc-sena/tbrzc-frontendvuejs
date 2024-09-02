@@ -18,7 +18,7 @@ const logout = () => {
       <nav class="m-2 w-full">
         <div class="flex items-center font-mono" role="navigation">
           <RouterLink
-            :to="{ name: 'homeview' }"
+            :to="{ name: 'productdashboard' }"
             class="mx-4 hidden w-1/5 lg:inline-block"
           >
             <div class="flex">
@@ -74,6 +74,11 @@ const logout = () => {
                   :to="{ name: 'loginview' }"
                   class="text-white  px-4 py-2 rounded"
                   >Ingresar</RouterLink
+                >
+              </li>
+              <li class="mx-1" v-if="store.getUserRole == 'Client'">
+                <RouterLink :to="{ name: 'dashboard' }" class="text-white"
+                  >Perfil</RouterLink
                 >
               </li>
               <!--

@@ -75,6 +75,11 @@ const logout = () => {
                   >Ingresar</RouterLink
                 >
               </li>
+              <li class="mx-1" v-if="store.getUserRole == 'Client'">
+                <RouterLink :to="{ name: 'dashboard' }" 
+                  >Perfil</RouterLink
+                >
+              </li>
               <!--
               <li class="mx-1">
                 <RouterLink

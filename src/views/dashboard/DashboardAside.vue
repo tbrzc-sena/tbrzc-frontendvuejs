@@ -14,10 +14,11 @@ const logout =()=>{
   <div class="flex col-span-1 row-span-4 rounded-md">
     <ul class="flex w-full flex-col">
       <li class="p-4">
+        <RouterLink :to="{ name: 'homeview' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <div class="hidden md:block">
             <img class="" src="/public/assets/imgs/autocarpet_logo.webp" alt="">
           </div>
-
+        </RouterLink>
       </li>
       <li class="px-4 my-2">
         <span class="font-medium uppercase text-gray-400">Productos</span>
