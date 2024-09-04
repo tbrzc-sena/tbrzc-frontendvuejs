@@ -1,8 +1,54 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from "vue";
+import gql from "graphql-tag";
+import { useQuery } from "@vue/apollo-composable";
 
 
-let products = ref()
+
+const GET_PRODUCTS = gql`
+  query MyQuery {
+    products {
+      edges {
+        node {
+          carModel {
+            name
+            make {
+              name
+            }
+            year
+          }
+          category {
+            discount
+            name
+          }
+          imageLink
+          price
+          inventoryItem {
+            description
+            name
+            stock
+            status
+            type
+          }
+          id
+        }
+      }
+    }
+  }
+`;
+
+let products = ref();
+const { result, loading, error } = useQuery(GET_PRODUCTS);
+
+watch(
+  [result, loading, error],
+  () => {
+    if (!loading.value && !error.value && result.value) {
+      products.value = result.value.products.edges;
+    }
+  },
+  { immediate: true }
+);
 </script>
 <template>
   <div>
@@ -16,32 +62,48 @@ let products = ref()
     </ul>
     <RouterLink :to="{ name: 'addproductoview' }">añadir</RouterLink>
   -->
+
     <main class="m-10">
       <section>
         <div class="w-10/12 mx-auto">
           <div class="grid grid-cols-3">
             <!-- COMPONENT-->
-            <div class="flex " v-for="product in products" :key="product.idProducto">
-
-              <div class=" flex flex-col w-3/4 rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1">
-
-                <RouterLink :to="{ name: 'productoview', params: { id: product.idProducto } }">
-                  <img class="rounded-t-lg w-100" :src="product.imagenProducto"
-                    :alt="product.articulo.nombreArticulo" />
+            <div class="flex" v-for="product in products" :key="product.node.id">
+              <div
+                class="flex flex-col w-3/4 rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1"
+              >
+                <RouterLink
+                  :to="{
+                    name: 'productoview',
+                    params: { id: product.node.id },
+                  }"
+                >
+                  <img
+                    class="rounded-t-lg w-100"
+                    :src="product.node.imageLink"
+                    :alt="product.node.inventoryItem.name"
+                  />
                 </RouterLink>
                 <div class="flex flex-col m-4 h-24 justify-evenly">
-                  <RouterLink :to="{ name: 'productoview', params: { id: product.idProducto } }">
-                    <p class=" font-semibold text-gray-900">
-                      {{ product.articulo.nombreArticulo }}
+                  <RouterLink
+                    :to="{
+                      name: 'productoview',
+                      params: { id: product.node.id },
+                    }"
+                  >
+                    <p class="font-semibold text-gray-900">
+                      {{ product.node.inventoryItem.name }}
                     </p>
                   </RouterLink>
 
-                  <p>{{ product.articulo.descripcion }}</p>
+
 
                   <div>
                     <div class="flex items-center justify-between">
-                      <span class=" font-bold">${{ product.precio }}</span>
-                      <span class="text-green-400 font-bold">{{ product.categoria.descuentoCategoria }}%</span>
+                      <span class="font-bold">${{ product.node.price }}</span>
+                      <span class="text-green-400 font-bold"
+                        >{{ product.node.category.discount }}%</span
+                      >
                     </div>
                   </div>
                 </div>

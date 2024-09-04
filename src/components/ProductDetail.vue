@@ -70,7 +70,7 @@ const imageComputed = computed(() => producto.value.imagen);
     </ul>
   </div>
   -->
-  <div class="py-6 h-screen">
+  <div class="py-6 ">
 
     <div class="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="-mx-4 flex flex-col md:flex-row">
