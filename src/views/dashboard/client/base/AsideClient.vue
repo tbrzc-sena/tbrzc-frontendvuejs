@@ -52,7 +52,7 @@ watch(
         <div v-else class="bg-white p-3 border-t-4 border-green-400">
 
 
-            <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ client.firstName }} + {{ client.lastName }}</h1>
+            <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ client.firstName }} {{ client.lastName }}</h1>
             <h3 class="text-gray-600 font-lg text-semibold leading-6">{{ client.lastLogin }}</h3>
             <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">
                 {{ client.phone }}</p>
@@ -62,9 +62,8 @@ watch(
                     <span> {{ client.dateJoined }}</span>
                 </li>
                 <li>
-                    <RouterLink :to="{ name: 'updateinfo' }" class="">Editar perfil</RouterLink>
+                    <RouterLink :to="{ name: 'updateinfo' }" class="mr-5">Editar perfil</RouterLink>
                     <RouterLink :to="{ name: 'dashboard' }" class="" v-if="isUpdateInfoRoute">Volver</RouterLink>
-
                 </li>
             </ul>
         </div>

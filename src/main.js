@@ -52,6 +52,7 @@ import InputMask from "primevue/inputmask";
 import InputText from "primevue/inputtext";
 import Select from "primevue/select";
 import Textarea from "primevue/textarea";
+import ToggleButton  from "primevue/togglebutton";
 
 const app = createApp({
   setup () {
@@ -81,6 +82,7 @@ app.component("InputMask", InputMask);
 app.component("InputText", InputText);
 app.component("Textarea", Textarea);
 app.component("Select", Select);
+app.component("ToggleButton", ToggleButton);
 
 
 

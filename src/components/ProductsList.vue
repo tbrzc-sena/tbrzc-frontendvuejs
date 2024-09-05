@@ -70,7 +70,7 @@ watch(
             <!-- COMPONENT-->
             <div class="flex" v-for="product in products" :key="product.node.id">
               <div
-                class="flex flex-col w-3/4 rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1"
+                class="flex flex-col w-3/4 justify-between flex-grow m-4 rounded-lg bg-white shadow-lg hover:bg-slate-100 col-span-1"
               >
                 <RouterLink
                   :to="{
@@ -84,7 +84,7 @@ watch(
                     :alt="product.node.inventoryItem.name"
                   />
                 </RouterLink>
-                <div class="flex flex-col m-4 h-24 justify-evenly">
+                <div class="flex flex-col m-4 ">
                   <RouterLink
                     :to="{
                       name: 'productoview',
@@ -115,4 +115,7 @@ watch(
     </main>
   </div>
 </template>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+
+</style>

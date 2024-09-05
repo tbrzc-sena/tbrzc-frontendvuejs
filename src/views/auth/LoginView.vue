@@ -7,6 +7,10 @@ import { useAuthStore } from "../../store/Auth";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+import Toast from "primevue/toast";
+
 
 const store = useAuthStore();
 let email = ref("");
@@ -59,6 +63,12 @@ const login = async () => {
     }
   } catch (error) {
     store.error = error;
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Credenciales incorrectas",
+      life: 3000,
+    });
   }
 };
 </script>
@@ -100,6 +110,7 @@ const login = async () => {
                     >Olvido su contraseña?</RouterLink
                   >
                 </div>
+                <Toast />
                 <div class="mb-3">
                   <button type="submit" class="my-1 w-full" @click="login()">
                     iniciar sesión
