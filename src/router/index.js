@@ -94,6 +94,7 @@ const router = createRouter({
     {
       path: "/productos",
       component: ProductsView,
+      name: "productsviewbase",
       meta: {
         requireAuth: false,
       },
