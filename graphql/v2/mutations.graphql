@@ -1,0 +1,48 @@
+mutation deleteProduct($id: ID!) {
+    deleteCarpet(id: $id) {
+      success
+    }
+  }
+
+
+{
+  "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzdV9V6lhmgTd8ucDH51nBNd06_yzITA4nJQ&s",
+  "precio": 2000,
+  "nombre": "cualquiera",
+  "cantidad": 5,
+  "tipoArticulo": "MAT",
+  "descripcion": "casdasdp",
+  "categoria": 1,
+  "modeloVehiculo": 1,
+  "itemInventario": 1
+}
+
+ mutation addProduct(
+    $imagen: String!
+    $precio: Int!
+    $nombre: String!
+    $cantidad: Int!
+    $tipoArticulo: String!
+    $descripcion: String!
+    $categoria: ID!
+    $modeloVehiculo: ID!
+  	$itemInventario: ID!
+  ) {
+    createCarpet(
+      imageLink: $imagen
+      price: $precio
+      itemName: $nombre
+      itemStock: $cantidad
+      itemType: $tipoArticulo
+      itemDescription: $descripcion
+      categoryId: $categoria
+      carModelId: $modeloVehiculo
+      materialId: $itemInventario
+    ) {
+      carpet {
+        inventoryItem{
+          name
+        }
+      }
+    }
+  }

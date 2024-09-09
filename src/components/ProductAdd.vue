@@ -88,6 +88,8 @@ let producto = ref({
   //marcaVehiculo: 0,//modelMake
   categoria: 0, //category
   //tipoVehiculo: 0,//modelType
+
+  material: 0,
 });
 
 const isValidURL = (string) => {
@@ -138,6 +140,7 @@ const newProduct = async () => {
 
       categoria: atob(producto.value.categoria.id).split(":")[1],
       modeloVehiculo: atob(producto.value.modeloVehiculo.id).split(":")[1],
+      // aqui id material
     });
     router.push({ name: "productdashboard" });
   } catch (error) {

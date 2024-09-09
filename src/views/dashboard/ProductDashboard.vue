@@ -16,7 +16,7 @@ const store = useAuthStore()
 
 const FORM_DATA = gql`
   query{
-  products {
+  carpets {
     edges {
       node {
         id
@@ -38,7 +38,7 @@ const FORM_DATA = gql`
 
 const DELETE_MUTATION = gql`
   mutation deleteProduct($id: ID!) {
-    deleteProduct(id: $id) {
+    deleteCarpet(id: $id) {
       success
     }
   }
@@ -62,10 +62,10 @@ const deleteProduct = async (idf) => {
 };
 
 
-const { result, loading, error, refetch,onResult } = useQuery(FORM_DATA);
+const { result, loading, error, refetch, onResult } = useQuery(FORM_DATA);
 
 onResult((queryResult) => {
-  productsLst.value = queryResult.data.products.edges.map((product) => product.node);
+  productsLst.value = queryResult.data.carpets.edges.map((product) => product.node);
 });
 
 onMounted(() => {
@@ -91,60 +91,38 @@ const showToast = (idf) => {
     <main>
       <div class="grid grid-cols-4 h-screen">
         <DashboardAside></DashboardAside>
-        <div
-          class="col-span-3 m-5 row-span-3 shadow overflow-hidden rounded border-b border-gray-200 bg-white"
-        >
-        <div v-if="loading">Loading...</div>
+        <div class="col-span-3 m-5 row-span-3 shadow overflow-hidden rounded border-b border-gray-200 bg-white">
+          <div v-if="loading">Loading...</div>
 
           <table class="" v-if="store.getUserRole == 'Admin'">
             <thead class="">
               <tr>
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle uppercase"
-                >
+                <th class="text-gray-500 bg-gray-50 text-center align-middle uppercase">
                   id
                 </th>
 
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle uppercase"
-                >
+                <th class="text-gray-500 bg-gray-50 text-center align-middle uppercase">
                   nombre
                 </th>
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle uppercase"
-                >
+                <th class="text-gray-500 bg-gray-50 text-center align-middle uppercase">
                   estado
                 </th>
 
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle uppercase"
-                >
+                <th class="text-gray-500 bg-gray-50 text-center align-middle uppercase">
                   descuento
                 </th>
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle uppercase"
-                >
+                <th class="text-gray-500 bg-gray-50 text-center align-middle uppercase">
                   tipo
                 </th>
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle uppercase"
-                >
+                <th class="text-gray-500 bg-gray-50 text-center align-middle uppercase">
                   cantidad
                 </th>
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle uppercase"
-                >
+                <th class="text-gray-500 bg-gray-50 text-center align-middle uppercase">
                   precio
                 </th>
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle"
-                ></th>
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle"
-                ></th>
-                <th
-                  class="text-gray-500 bg-gray-50 text-center align-middle"
-                ></th>
+                <th class="text-gray-500 bg-gray-50 text-center align-middle"></th>
+                <th class="text-gray-500 bg-gray-50 text-center align-middle"></th>
+                <th class="text-gray-500 bg-gray-50 text-center align-middle"></th>
               </tr>
             </thead>
 
@@ -161,9 +139,7 @@ const showToast = (idf) => {
                   {{ product.inventoryItem.name }}
                 </td>
                 <td class="align-middle">
-                  <button
-                    class="hover:bg-green-600 bg-green-600 font-bold text-white rounded-full"
-                  >
+                  <button class="hover:bg-green-600 bg-green-600 font-bold text-white rounded-full">
                     {{ product.inventoryItem.status }}
                   </button>
                 </td>
@@ -175,9 +151,7 @@ const showToast = (idf) => {
                   {{ product.inventoryItem.type }}
                 </td>
                 <td class="align-middle">
-                  <button
-                    class="hover:bg-orange-500 bg-orange-500 font-bold text-white rounded-full"
-                  >
+                  <button class="hover:bg-orange-500 bg-orange-500 font-bold text-white rounded-full">
                     {{ product.inventoryItem.stock }}
                   </button>
                 </td>
@@ -185,39 +159,26 @@ const showToast = (idf) => {
                   {{ product.price }}
                 </td>
                 <td class="align-middle">
-                  <RouterLink
-                    :to="{
-                      name: 'updateproductoview',
-                      params: { id: product.id  },
-                    }"
-                    ><button
-                      class="hover:bg-green-600 bg-green-700 font-bold text-white"
-                    >
+                  <RouterLink :to="{
+                    name: 'updateproductoview',
+                    params: { id: product.id },
+                  }"><button class="hover:bg-green-600 bg-green-700 font-bold text-white">
                       Editar
-                    </button></RouterLink
-                  >
+                    </button></RouterLink>
                 </td>
                 <td class="align-middle">
                   <Toast />
-                  <button
-                    class="hover:bg-red-700 bg-red-500 font-bold text-white"
-                    @click="showToast(product.id)"
-                  >
+                  <button class="hover:bg-red-700 bg-red-500 font-bold text-white" @click="showToast(product.id)">
                     Eliminar
                   </button>
                 </td>
                 <td class="align-middle">
-                  <RouterLink
-                    :to="{
-                      name: 'productoview',
-                      params: { id: product.id },
-                    }"
-                    ><button
-                      class="hover:bg-blue-500 bg-blue-700 font-bold text-white"
-                    >
+                  <RouterLink :to="{
+                    name: 'productoview',
+                    params: { id: product.id },
+                  }"><button class="hover:bg-blue-500 bg-blue-700 font-bold text-white">
                       Ver
-                    </button></RouterLink
-                  >
+                    </button></RouterLink>
                 </td>
               </tr>
             </tbody>
