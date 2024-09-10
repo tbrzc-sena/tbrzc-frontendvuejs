@@ -10,7 +10,7 @@ const decodedID = atob(productId).split(":")[1];
 import { ref, onBeforeMount, computed } from "vue";
 const GET_PRODUCT_BY_ID_QUERY = gql`
   query getProductById($id: ID!) {
-    product(id: $id) {
+    carpet(id: $id) {
       price
       imageLink
       inventoryItem {
@@ -49,7 +49,7 @@ const { result, loading, error } = useQuery(GET_PRODUCT_BY_ID_QUERY, () => ({
 
 onBeforeMount(() => {
   if (!loading.value && !error.value && result.value) {
-    const productData = result.value.product;
+    const productData = result.value.carpet;
     producto.value = {
       precio: productData.price,
       imagen: productData.imageLink,

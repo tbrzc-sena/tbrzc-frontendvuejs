@@ -9,8 +9,8 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 import { useRoute } from "vue-router";
 const route = useRoute();
-import Toast from 'primevue/toast';
-import { useToast } from 'primevue/usetoast';
+import Toast from "primevue/toast";
+import { useToast } from "primevue/usetoast";
 const toast = useToast();
 import Skeleton from "primevue/skeleton";
 
@@ -85,7 +85,7 @@ const UPDATE_PRODUCT_MUTATION = gql`
     $tipoArticulo: String!
     $precio: Int!
   ) {
-    updateProduct(
+    updateCarpet(
       id: $id
       carModelId: $modeloVehiculo
       categoryId: $categoria
@@ -96,7 +96,7 @@ const UPDATE_PRODUCT_MUTATION = gql`
       itemType: $tipoArticulo
       price: $precio
     ) {
-      product {
+      carpet {
         inventoryItem {
           name
         }
@@ -107,7 +107,7 @@ const UPDATE_PRODUCT_MUTATION = gql`
 
 const GET_PRODUCT_BY_ID_QUERY = gql`
   query getProductById($id: ID!) {
-    product(id: $id) {
+    carpet(id: $id) {
       price
       imageLink
       inventoryItem {
@@ -152,7 +152,7 @@ const loadProductData = () => {
     [result, loading, error],
     () => {
       if (!loading.value && !error.value && result.value) {
-        const productData = result.value.product;
+        const productData = result.value.carpet;
         producto.value = {
           id: decodedID.value,
           precio: productData.price,
@@ -198,7 +198,7 @@ const updateProduct = async () => {
     } else if (selectedTipo === "Orden Personalizada") {
       producto.value.tipoArticulo = "CUS";
     }
-    const response = await mutate({
+    console.log({
       id: producto.value.id,
       modeloVehiculo: atob(producto.value.modeloVehiculo.id).split(":")[1],
       categoria: atob(producto.value.categoria.id).split(":")[1],
@@ -207,36 +207,61 @@ const updateProduct = async () => {
       nombre: producto.value.nombre,
       cantidad: producto.value.cantidad,
       tipoArticulo: producto.value.tipoArticulo,
-      precio: producto.value.precio,
+      precio: producto.value.precio
     });
-    router.push({ name: "productdashboard" });
   } catch (error) {
     console.log(error);
   }
 };
 
-
 const isValidURL = (string) => {
-  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); // fragment locator
   return !!pattern.test(string);
 };
 
 const imageComputed = computed(() => producto.value.imagen);
 
 const showToast = () => {
-  if (!isValidURL(producto.value.imagen) || producto.value.imagen.length > 255) {
-    toast.add({ severity: 'error', summary: 'Error', detail: 'La URL de la imagen no es válida', life: 3000 });
-  }else{
-    if(producto.value.precio <= 0 || producto.value.cantidad <= 0){
-      toast.add({ severity: 'error', summary: 'Error', detail: 'El precio o la cantidad no pueden ser menores o iguales a 0', life: 3000 })
-    }else if(producto.value.nombre === "" || producto.value.descripcion === "" || producto.value.tipoArticulo === "" || producto.value.categoria === 0 || producto.value.modeloVehiculo === 0){
-      toast.add({ severity: 'error', summary: 'Error', detail: 'Todos los campos son obligatorios', life: 3000 })
-    }else{
+  if (
+    !isValidURL(producto.value.imagen) ||
+    producto.value.imagen.length > 255
+  ) {
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "La URL de la imagen no es válida",
+      life: 3000,
+    });
+  } else {
+    if (producto.value.precio <= 0 || producto.value.cantidad <= 0) {
+      toast.add({
+        severity: "error",
+        summary: "Error",
+        detail: "El precio o la cantidad no pueden ser menores o iguales a 0",
+        life: 3000,
+      });
+    } else if (
+      producto.value.nombre === "" ||
+      producto.value.descripcion === "" ||
+      producto.value.tipoArticulo === "" ||
+      producto.value.categoria === 0 ||
+      producto.value.modeloVehiculo === 0
+    ) {
+      toast.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Todos los campos son obligatorios",
+        life: 3000,
+      });
+    } else {
       updateProduct();
     }
   }
@@ -260,10 +285,10 @@ const showToast = () => {
         </div>
         <h1 class="text-2xl font-semibold mb-6">Actualizar producto</h1>
         <div v-if="loading">
-          <Skeleton ></Skeleton>
-          <Skeleton width="7rem" ></Skeleton>
-          <Skeleton width="5rem" ></Skeleton>
-          <Skeleton height="2rem" ></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton width="7rem"></Skeleton>
+          <Skeleton width="5rem"></Skeleton>
+          <Skeleton height="2rem"></Skeleton>
           <Skeleton width="7rem" height="4rem"></Skeleton>
         </div>
         <form v-else @submit.prevent class="space-y-6">

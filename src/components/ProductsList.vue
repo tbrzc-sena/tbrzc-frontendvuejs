@@ -7,7 +7,7 @@ import { useQuery } from "@vue/apollo-composable";
 
 const GET_PRODUCTS = gql`
   query MyQuery {
-    products {
+    carpets {
       edges {
         node {
           carModel {
@@ -44,7 +44,7 @@ watch(
   [result, loading, error],
   () => {
     if (!loading.value && !error.value && result.value) {
-      products.value = result.value.products.edges;
+      products.value = result.value.carpets.edges;
     }
   },
   { immediate: true }

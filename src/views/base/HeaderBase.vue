@@ -58,11 +58,6 @@ const logout = () => {
                   >Productos</RouterLink
                 >
               </li>
-              <li class="mx-1">
-                <RouterLink :to="{ name: 'productopersonalizacion' }" class="text-white"
-                  >Personalización</RouterLink
-                >
-              </li>
               <li class="mx-1" v-if="store.isAuthenticated" @click="logout()" >
                 <button>
                   Cerrar sesión

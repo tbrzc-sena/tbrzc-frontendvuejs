@@ -13,7 +13,7 @@ import Tag from "primevue/tag";
 
 const GET_PRODUCTS = gql`
   query MyQuery {
-    products {
+    carpets {
       edges {
         node {
           carModel {
@@ -50,23 +50,11 @@ watch(
   [result, loading, error],
   () => {
     if (!loading.value && !error.value && result.value) {
-      products.value = result.value.products.edges.map((edge) => edge.node);
+      products.value = result.value.carpets.edges.map((edge) => edge.node);
     }
   },
   { immediate: true }
 );
-const getSeverity = (status) => {
-  switch (status) {
-    case "INSTOCK":
-      return "success";
-    case "LOWSTOCK":
-      return "warning";
-    case "OUTOFSTOCK":
-      return "danger";
-    default:
-      return null;
-  }
-};
 </script>
 <template>
   <HeaderAlternative></HeaderAlternative>
