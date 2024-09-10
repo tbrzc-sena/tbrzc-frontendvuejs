@@ -198,7 +198,7 @@ const updateProduct = async () => {
     } else if (selectedTipo === "Orden Personalizada") {
       producto.value.tipoArticulo = "CUS";
     }
-    console.log({
+    const response = await mutate({
       id: producto.value.id,
       modeloVehiculo: atob(producto.value.modeloVehiculo.id).split(":")[1],
       categoria: atob(producto.value.categoria.id).split(":")[1],
@@ -209,6 +209,7 @@ const updateProduct = async () => {
       tipoArticulo: producto.value.tipoArticulo,
       precio: producto.value.precio
     });
+    router.push({ name: "productdashboard" });
   } catch (error) {
     console.log(error);
   }
