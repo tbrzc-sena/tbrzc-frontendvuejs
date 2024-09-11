@@ -15,33 +15,42 @@ const toast = useToast();
 
 const INFO_PRODUCT_QUERY = gql`
   query InfoForProductCreation {
-    carModels {
-      edges {
-        node {
+  carModels {
+    edges {
+      node {
+        id
+        name
+        year
+        type {
           id
           name
-          year
-          type {
-            id
-            name
-          }
-          make {
-            id
-            name
-          }
         }
-      }
-    }
-    productCategories {
-      edges {
-        node {
+        make {
           id
           name
-          discount
         }
       }
     }
   }
+  productCategories {
+    edges {
+      node {
+        id
+        name
+        discount
+      }
+    }
+  }
+  inventoryItems(type: "RAW") {
+    edges {
+      node {
+        type
+        name
+        id
+      }
+    }
+  }
+}
 `;
 const ADD_PRODUCT_QUERY = gql`
   mutation addProduct(
@@ -53,8 +62,9 @@ const ADD_PRODUCT_QUERY = gql`
     $descripcion: String!
     $categoria: ID!
     $modeloVehiculo: ID!
+    $materialID: ID!
   ) {
-    createProduct(
+    createCarpet(
       imageLink: $imagen
       price: $precio
       itemName: $nombre
@@ -63,8 +73,9 @@ const ADD_PRODUCT_QUERY = gql`
       itemDescription: $descripcion
       categoryId: $categoria
       carModelId: $modeloVehiculo
+      materialId: $materialID
     ) {
-      product {
+      carpet {
         inventoryItem {
           name
         }
@@ -76,6 +87,7 @@ const ADD_PRODUCT_QUERY = gql`
 let categoria = ref();
 let tipo = ref(["Material", "Tapete", "Personalizado"]);
 let modelo = ref();
+let material = ref();
 
 let producto = ref({
   precio: 0, //price
@@ -88,7 +100,6 @@ let producto = ref({
   //marcaVehiculo: 0,//modelMake
   categoria: 0, //category
   //tipoVehiculo: 0,//modelType
-
   material: 0,
 });
 
@@ -114,6 +125,9 @@ watch(
         (edge) => edge.node
       );
       modelo.value = result.value.carModels.edges.map((edge) => edge.node);
+      material.value = result.value.inventoryItems.edges.map(
+        (edge) => edge.node
+      );
     }
   },
   { immediate: true }
@@ -141,6 +155,7 @@ const newProduct = async () => {
       categoria: atob(producto.value.categoria.id).split(":")[1],
       modeloVehiculo: atob(producto.value.modeloVehiculo.id).split(":")[1],
       // aqui id material
+      materialID: atob(producto.value.material.id).split(":")[1],
     });
     router.push({ name: "productdashboard" });
   } catch (error) {
@@ -154,7 +169,10 @@ const newProduct = async () => {
 };
 
 const showToast = () => {
-  if (!isValidURL(producto.value.imagen) || producto.value.imagen.length > 255) {
+  if (
+    !isValidURL(producto.value.imagen) ||
+    producto.value.imagen.length > 255
+  ) {
     toast.add({
       severity: "error",
       summary: "Error",
@@ -334,6 +352,21 @@ const imageComputed = computed(() => producto.value.imagen);
               />
             </div>
           </div>
+          <div class="w-full">
+              <label
+                for="material-tapete"
+                class="block text-sm font-medium text-gray-700"
+                >Material</label
+              >
+              <Select
+                v-model="producto.material"
+                :options="material"
+                optionLabel="name"
+                placeholder="Material Tapete"
+                class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
+                id="material-tapete"
+              />
+            </div>
           <div>
             <Toast />
             <button
