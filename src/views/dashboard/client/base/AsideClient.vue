@@ -53,13 +53,12 @@ watch(
 
 
             <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ client.firstName }} {{ client.lastName }}</h1>
-            <h3 class="text-gray-600 font-lg text-semibold leading-6">{{ client.lastLogin }}</h3>
             <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">
-                {{ client.phone }}</p>
+                Telefono: {{ client.phone }}</p>
             <ul
                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                 <li class="flex items-center py-3">
-                    <span> {{ client.dateJoined }}</span>
+                    <span>Cliente hace: {{ client.dateJoined }}</span>
                 </li>
                 <li>
                     <RouterLink :to="{ name: 'updateinfo' }" class="mr-5">Editar perfil</RouterLink>
