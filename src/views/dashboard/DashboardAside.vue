@@ -50,7 +50,7 @@ const logout =()=>{
       </li>
 
       <li class="px-4 my-2">
-        <RouterLink :to="{ name: 'personalizaciones' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
+        <RouterLink :to="{ name: 'materiales' }" class="flex items-center rounded-lg text-gray-600 hover:bg-gray-100">
           <span class="text-blue-500">
             <i class="fa-solid fa-th text-2xl"></i>
           </span>

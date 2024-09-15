@@ -2,6 +2,18 @@
 import HeaderBase from "./base/HeaderBase.vue";
 import FooterBase from "./base/FooterBase.vue";
 import { RouterLink } from "vue-router";
+import Toast from "primevue/toast";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
+const advice = () => {
+  toast.add({
+    severity: "info",
+    summary: "Información",
+    detail: "Estamos trabajando en esta sección para ti",
+    life: 3000,
+  });
+};
 </script>
 <template>
   <HeaderBase></HeaderBase>
@@ -41,7 +53,7 @@ import { RouterLink } from "vue-router";
       <h2 class="text-center text-3xl text-black m-8">
         Busca el tapete perfecto para ti
       </h2>
-      <form action="" class="flex">
+      <form action="" @submit.prevent class="flex">
         <select name="" id="" class="w-full">
           <option value="" class="">Marca</option>
         </select>
@@ -53,7 +65,8 @@ import { RouterLink } from "vue-router";
           <option value="" class="">Material</option>
           <option value="" class=""></option>
         </select>
-        <button>buscar</button>
+        <Toast />
+        <button @click="advice()">buscar</button>
       </form>
     </section>
     <br />

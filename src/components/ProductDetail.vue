@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 import gql from "graphql-tag";
 import { useQuery } from "@vue/apollo-composable";
-
+import Message from 'primevue/message';
 const productId = route.params.id;
 const decodedID = atob(productId).split(":")[1];
 import { ref, onBeforeMount, computed } from "vue";
@@ -128,6 +128,7 @@ const imageComputed = computed(() => producto.value.imagen);
             </button>
           </div>
           -->
+          <Message class="w-full h-16" severity="warn">Esta sección está siendo modificada o el contenido aún no ha sido agregado. Por favor, vuelve más tarde ❤️</Message>
         </div>
       </div>
     </div>

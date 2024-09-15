@@ -203,7 +203,7 @@ const updateInfo = async () => {
                   id="email"
                   v-model="client.email"
                   aria-describedby="email-help"
-                  class="form-input"
+                  class=""
                 />
               </div>
               <div class="flex flex-col md:col-span-2">
@@ -213,7 +213,7 @@ const updateInfo = async () => {
                   v-model="client.addresDetail"
                   rows="5"
                   cols="30"
-                  class="form-input resize-none"
+                  class="resize-none"
                 />
               </div>
             </div>

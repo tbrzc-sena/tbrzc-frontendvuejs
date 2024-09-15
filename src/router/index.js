@@ -30,7 +30,9 @@ import Unauthorized from "../views/auth/Unauthorized.vue";
 import Forbidden from "../views/auth/Forbidden.vue";
 import NotFound from "../views/auth/NotFound.vue";
 import MainDasboard from "../views/dashboard/client/MainDashboard.vue";
-import UpdateInfo from "../views/dashboard/client/UpdateInfo.vue"
+import UpdateInfo from "../views/dashboard/client/UpdateInfo.vue";
+import Material from "../views/dashboard/Material.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -293,6 +295,15 @@ const router = createRouter({
       path: "/auth/personalizaciones",
       name: "personalizaciones",
       component: SolicitudPersonalizacion,
+      meta: {
+        roles: ["Admin"],
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/materiales",
+      name: "materiales",
+      component: Material,
       meta: {
         roles: ["Admin"],
         requireAuth: true,
