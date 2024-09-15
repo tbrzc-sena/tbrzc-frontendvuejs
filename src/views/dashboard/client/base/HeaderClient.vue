@@ -65,7 +65,7 @@ const logout = () => {
             <img
               src="/public/assets/imgs/autocarpet_logo.webp"
               alt=""
-              class="my-0"
+              class="my-0 w-full h-16"
             />
           </div>
         </RouterLink>

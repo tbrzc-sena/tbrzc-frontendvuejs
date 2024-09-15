@@ -4,14 +4,33 @@ import HeaderClient from "./base/HeaderClient.vue";
 import { ref, watch } from "vue";
 import gql from "graphql-tag";
 import { useQuery } from "@vue/apollo-composable";
+import { useMutation } from "@vue/apollo-composable";
+import { useAuthStore } from "../../../store/Auth";
+const store = useAuthStore();
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const USER_ID = gql`
-  query getUserLogged{
+  query MyQuery {
     loggedIn {
+      groups {
+        edges {
+          node {
+            name
+          }
+        }
+      }
+      address {
+        details
+        neighborhood {
+          id
+          name
+        }
+      }
       id
-      email
       firstName
       lastName
+      email
       phone
     }
   }
@@ -28,6 +47,35 @@ const BARRIOS_QUERY = gql`
     }
   }
 `;
+
+const UPDATE_MUTATION = gql`
+  mutation MyMutation(
+    $id: ID!
+    $addresDetails: String
+    $email: String
+    $firstName: String
+    $lastName: String
+    $neighborhoodId: ID
+    $phone: String
+  ) {
+    updateUser(
+      id: $id
+      addresDetails: $addresDetails
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+      neighborhoodId: $neighborhoodId
+      phone: $phone
+    ) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
+const { mutate } = useMutation(UPDATE_MUTATION);
+
 let client = ref({
   id: 0,
   firstName: "",
@@ -46,8 +94,7 @@ const {
   loading: infoLoading,
   error: infoError,
 } = useQuery(BARRIOS_QUERY);
-
-
+let originalEmail = "";
 watch(
   [result, loading, error],
   () => {
@@ -55,8 +102,14 @@ watch(
       client.value.id = atob(result.value.loggedIn.id).split(":")[1];
       client.value.firstName = result.value.loggedIn.firstName;
       client.value.lastName = result.value.loggedIn.lastName;
-      client.value.phone = parseInt( result.value.loggedIn.phone);
+      client.value.phone = parseInt(result.value.loggedIn.phone);
       client.value.email = result.value.loggedIn.email;
+      originalEmail = result.value.loggedIn.email;
+      client.value.addresDetail = result.value.loggedIn.address.details;
+
+      client.value.neighborhoodId = barrios.value.find(
+        (barrio) => barrio.id === result.value.loggedIn.address.neighborhood.id
+      );
     }
     if (!infoLoading.value && !infoError.value && infoResult.value) {
       barrios.value = infoResult.value.neighborhoods.edges.map(
@@ -67,10 +120,28 @@ watch(
   { immediate: true }
 );
 
-
-
-
-
+const updateInfo = async () => {
+  try {
+    const response = await mutate({
+      id: client.value.id,
+      email: client.value.email,
+      firstName: client.value.firstName,
+      lastName: client.value.lastName,
+      phone: client.value.phone.toString(),
+      addresDetails: client.value.addresDetail,
+      neighborhoodId: atob(client.value.neighborhoodId.id).split(":")[1],
+    });
+    if (originalEmail !== client.value.email) {
+      store.clearJwt();
+      store.clearUserRole();
+      router.push({ name: "loginview" });
+    } else {
+      router.push({ name: "dashboard" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 <template>
   <div class="bg-gray-100 h-screen">
@@ -79,7 +150,9 @@ watch(
       <div class="md:flex no-wrap md:-mx-2">
         <AsideClient></AsideClient>
         <div class="bg-white p-3 shadow-sm rounded-sm w-1/2">
-          <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-4">
+          <div
+            class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-4"
+          >
             <span class="">
               <i class="fa-solid fa-user text-2xl"></i>
             </span>
@@ -93,7 +166,6 @@ watch(
                   id="firstName"
                   v-model="client.firstName"
                   aria-describedby="firstName-help"
-                  
                 />
               </div>
               <div class="flex flex-col">
@@ -102,7 +174,6 @@ watch(
                   id="lastName"
                   v-model="client.lastName"
                   aria-describedby="lastName-help"
-                  
                 />
               </div>
               <div class="flex flex-col mb-2">
@@ -123,17 +194,16 @@ watch(
                   :options="barrios"
                   optionLabel="name"
                   placeholder="Barrio"
-                  
                   id="neighborhoodId"
                 />
               </div>
-              <div class="flex flex-col ">
+              <div class="flex flex-col">
                 <label for="email" class="mb-1">Correo</label>
                 <InputText
                   id="email"
                   v-model="client.email"
                   aria-describedby="email-help"
-                  class="form-input "
+                  class="form-input"
                 />
               </div>
               <div class="flex flex-col md:col-span-2">
@@ -148,7 +218,10 @@ watch(
               </div>
             </div>
           </div>
-          <button class="w-full mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <button
+            @click="updateInfo()"
+            class="w-full mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
             Editar perfil
           </button>
         </div>
@@ -157,6 +230,4 @@ watch(
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

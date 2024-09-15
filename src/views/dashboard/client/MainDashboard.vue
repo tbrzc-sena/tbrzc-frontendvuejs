@@ -2,6 +2,9 @@
 import HeaderClient from "./base/HeaderClient.vue";
 import AsideClient from "./base/AsideClient.vue";
 import { RouterLink } from "vue-router";
+import Message from 'primevue/message';
+import ProgressSpinner from 'primevue/progressspinner';
+
 </script>
 <template>
   <div class="bg-gray-100 h-screen">
@@ -22,7 +25,7 @@ import { RouterLink } from "vue-router";
 
           <!-- Experience and education -->
           <div class="bg-white p-3 shadow-sm rounded-sm">
-            <div class="grid grid-cols-2">
+            <div>
               <div>
                 <div
                   class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3"
@@ -32,6 +35,8 @@ import { RouterLink } from "vue-router";
                   </span>
                   <span class="mx-0">Pedidos</span>
                 </div>
+                <Message class="w-full h-16" severity="warn">Esta sección está siendo modificada o el contenido aún no ha sido agregado. Por favor, vuelve más tarde ❤️</Message>
+
                 <!--
                                 <ul class="list-inside space-y-2">
                                     <li>
