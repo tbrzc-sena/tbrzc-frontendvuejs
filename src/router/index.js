@@ -30,8 +30,11 @@ import Unauthorized from "../views/auth/Unauthorized.vue";
 import Forbidden from "../views/auth/Forbidden.vue";
 import NotFound from "../views/auth/NotFound.vue";
 import MainDasboard from "../views/dashboard/client/MainDashboard.vue";
+import ProveedorLista from "../views/dashboard/ProveedorLista.vue";
+import AddSupplier from "../views/dashboard/AddSupplier.vue";
 import UpdateInfo from "../views/dashboard/client/UpdateInfo.vue";
 import Material from "../views/dashboard/Material.vue";
+import SupplierUpdate from "../views/dashboard/SupplierUpdate.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -323,6 +326,33 @@ const router = createRouter({
       name: "newTipoVehiculo",
       component: NewTipoVehiculo,
       meta: {
+        roles: ["Admin"],
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/proveedores",
+      name: "proveedores",
+      component: ProveedorLista,
+      meta: {
+        roles: ["Admin"],
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/proveedores/new",
+      name: "newProveedor",
+      component: AddSupplier,
+      meta: {
+        roles: ["Admin"],
+        requireAuth: true,
+      },
+    },
+    {
+      path: "/auth/proveedores/:id/editar",
+      name: "supplierUpdate",
+      component: SupplierUpdate,
+      meta:{
         roles: ["Admin"],
         requireAuth: true,
       },
