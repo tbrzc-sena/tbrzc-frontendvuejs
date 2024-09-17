@@ -30,10 +30,12 @@ const logout = () => {
               </div>
           </RouterLink>
             <div class="flex grow">
+              <!--
               <input
                 type="text"
                 placeholder="¿Que estas buscando?"
                 class="w-full rounded-r-none font-sans focus:ring-0"
+                
               />
               <button
                 class="relative flex items-center rounded-l-none uppercase focus:ring-0"
@@ -41,6 +43,7 @@ const logout = () => {
               >
                 <span class="fas fa-search"></span>
               </button>
+-->
             </div>
             <div class="ml-4 cursor-pointer md:hidden">
               <span class="fas fa-bars text-4xl"></span>

@@ -33,6 +33,7 @@ import FooterBase from "../base/FooterBase.vue";
                   id="email"
                   type="email"
                   placeholder="Email"
+                  disabled
                 />
               </div>
               <div class="mb-6">
