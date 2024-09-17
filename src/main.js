@@ -14,7 +14,7 @@ import { useAuthStore } from './store/Auth';
 
 import { DefaultApolloClient } from '@vue/apollo-composable'
 const httpLink = new createHttpLink({
-  uri:'https://api-carpet.onrender.com/graphql/'
+  uri:'https://api-carpet.onrender.com'
 })
 import ToastService from 'primevue/toastservice';
 import 'primeicons/primeicons.css';  // Import PrimeIcons
