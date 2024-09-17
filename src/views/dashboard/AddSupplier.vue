@@ -137,9 +137,9 @@ const showToast = () => {
     <DashboardHeader></DashboardHeader>
     <div class="grid grid-cols-4 h-screen pt-5 bg-gray-100">
       <DashboardAside></DashboardAside>
-      <div class="col-span-2 ml-40 w-2/3 p-6 bg-white rounded-lg shadow-lg relative">
+      <div class="col-span-2 ml-40 w-2/3 p-6 bg-white rounded-lg shadow-lg ">
         <h1 class="text-2xl font-semibold mb-6">Nuevo proveedor</h1>
-        <form @submit.prevent class="space-y-6">
+        <form @submit.prevent >
           <div>
             <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
             <InputText type="text" v-model="supplier.name" id="nombre"
@@ -165,7 +165,7 @@ const showToast = () => {
             <Skeleton width="10rem" height="4rem"></Skeleton>
           </div>
           <div class="flex space-x-4" v-else>
-            <div class="w-1/2">
+            <div class="w-full">
               <label for="neighborhood" class="block text-sm font-medium text-gray-700">Barrio</label>
               <Select v-model="supplier.neighborhood" :options="neighborhoods" optionLabel="name" placeholder="Barrio"
                 class="mt-1 w-full border-gray-300 rounded-md shadow-sm" id="barrio" />
@@ -190,3 +190,10 @@ const showToast = () => {
   </div>
 
 </template>
+<style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 85%;
+}</style>

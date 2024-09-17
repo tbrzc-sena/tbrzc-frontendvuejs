@@ -43,7 +43,14 @@ watch(
     { immediate: true }
 );
 
-
+const formatearFecha = (fecha) => {
+  const fechaObj = new Date(fecha);
+  return new Intl.DateTimeFormat("es-ES", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(fechaObj);
+};
 </script>
 <template>
     <div class="w-full md:w-3/12 md:mx-2">
@@ -58,7 +65,7 @@ watch(
             <ul
                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                 <li class="flex items-center py-3">
-                    <span>Cliente desde: {{ client.dateJoined }}</span>
+                    <span>Cliente desde: {{ formatearFecha(client.dateJoined) }}</span>
                 </li>
                 <li>
                     <RouterLink :to="{ name: 'updateinfo' }" class="mr-5">Editar perfil</RouterLink>

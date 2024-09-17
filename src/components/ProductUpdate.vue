@@ -315,7 +315,7 @@ const showToast = () => {
             <Textarea
               v-model="producto.descripcion"
               id="descripcion"
-              class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
+              class="mt-1 w-full border-gray-300 rounded-md shadow-sm resize-none"
               autoResize
             />
           </div>
@@ -358,7 +358,9 @@ const showToast = () => {
             <Textarea
               v-model="producto.imagen"
               id="imagen-producto"
-              class="mt-1 w-full border-gray-300 rounded-md shadow-sm"
+              class="mt-1 w-full border-gray-300 rounded-md shadow-sm resize-none"
+              rows="5"
+              cols="30"
             />
           </div>
 

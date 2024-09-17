@@ -10,6 +10,10 @@ const store = useAuthStore();
 import { useRouter } from "vue-router";
 const router = useRouter();
 
+import Toast from "primevue/toast";
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
 const USER_ID = gql`
   query MyQuery {
     loggedIn {
@@ -105,11 +109,17 @@ watch(
       client.value.phone = parseInt(result.value.loggedIn.phone);
       client.value.email = result.value.loggedIn.email;
       originalEmail = result.value.loggedIn.email;
-      client.value.addresDetail = result.value.loggedIn.address.details;
+      if (result.value.loggedIn.address === null) {
+        client.value.addresDetail = "";
+        client.value.neighborhoodId = "";
+      } else {
+        client.value.addresDetail = result.value.loggedIn.address.details;
 
-      client.value.neighborhoodId = barrios.value.find(
-        (barrio) => barrio.id === result.value.loggedIn.address.neighborhood.id
-      );
+        client.value.neighborhoodId = barrios.value.find(
+          (barrio) =>
+            barrio.id === result.value.loggedIn.address.neighborhood.id
+        );
+      }
     }
     if (!infoLoading.value && !infoError.value && infoResult.value) {
       barrios.value = infoResult.value.neighborhoods.edges.map(
@@ -139,7 +149,12 @@ const updateInfo = async () => {
       router.push({ name: "dashboard" });
     }
   } catch (error) {
-    console.log(error);
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail:
+        "No se pudo actualizar la informacion, por favor selecciona un barrio",
+    });
   }
 };
 </script>
@@ -218,6 +233,7 @@ const updateInfo = async () => {
               </div>
             </div>
           </div>
+          <Toast />
           <button
             @click="updateInfo()"
             class="w-full mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

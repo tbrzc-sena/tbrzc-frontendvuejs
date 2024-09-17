@@ -117,7 +117,7 @@ const notAvalaible = () => {
             Ver materiales
           </button>
         </div>
-        <form @submit.prevent class="space-y-6">
+        <form @submit.prevent >
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label
@@ -180,4 +180,11 @@ const notAvalaible = () => {
     </div>
   </div>
 </template>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 85%;
+}
+</style>
